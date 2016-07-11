@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- new activity -->
+    <dimen name="activity_main_edtTxt_bill_amount_size">32sp</dimen>
+    <dimen name="activity_main_txtVw_numberText_size">48sp</dimen>
+
+</resources>

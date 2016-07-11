@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#C2185B</color>
+
+    <!-- 12% opacity light background divider color -->
+    <color name="dividerColorLightBackground">#1F000000</color>
+
+    <color name="colorRipple">#B6B6B6</color>
+</resources>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tip Calculator</string>
+    <string name="activity_main_txtVw_bill_amount_text">Bill Amount</string>
+    <string name="activity_main_tip_percentage_text">Tip Percentage (%)</string>
+    <string name="activity_main_tip_amount_text">Tip Amount</string>
+    <string name="activity_main_total_amount_text">Total Amount</string>
+    <string name="activity_main_split_text">Number of people</string>
+    <string name="activity_main_share_text">Each person pays</string>
+
+</resources>
