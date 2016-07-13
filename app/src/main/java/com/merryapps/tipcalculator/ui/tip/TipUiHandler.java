@@ -48,7 +48,7 @@ public class TipUiHandler {
         this.serviceRatingTipPercentageMap.put(ServiceRating.VERY_GOOD, 20);
 
         this.currentTipCalculator = new TipCalculator(
-                new BigDecimal(this.billAmount),
+                new BigDecimal(DECIMAL_0_STRING),
                 new BigDecimal(this.tipPercentage),
                 Integer.parseInt(this.numberOfPeople));
 
