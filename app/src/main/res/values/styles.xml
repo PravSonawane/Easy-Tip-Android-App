@@ -48,6 +48,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="SettingsHintText">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="ValueText">
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:includeFontPadding">false</item>
