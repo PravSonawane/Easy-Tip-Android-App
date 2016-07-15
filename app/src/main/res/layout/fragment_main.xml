@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/activity_main"
+    tools:context=".ui.tip.MainFragment"
+    >
+
+    <ScrollView
+        android:id="@+id/activity_main_parent_scrllVw_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="40dp"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:id="@+id/activity_main_parent_relLyt_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/activity_main_relLyt_bill_amount_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/activity_main_default_section_padding_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_main_default_section_padding_vertical">
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_bill_amount_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_txt_bill_amount"
+                    tools:text="Bill Amount" />
+
+                <EditText
+                    android:id="@+id/activity_main_edtTxt_bill_amount_id"
+                    style="@style/BillAmountText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/activity_main_txtVw_bill_amount_hint_id"
+                    tools:text="42.42" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_main_relLyt_tip_amount_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_relLyt_bill_amount_id"
+                android:paddingBottom="@dimen/activity_main_default_section_padding_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_main_default_section_padding_vertical">
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_percentage_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_text_tip_percentage"
+                    tools:text="Tip Percentage" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_percentage_id"
+                    style="@style/NumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_main_txtVw_tip_percentage_hint_id"
+                    android:text="15"
+                    tools:text="15" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_percentage_symbol_id"
+                    style="@style/SymbolText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/activity_main_txtVw_tip_percentage_id"
+                    android:layout_alignBottom="@+id/activity_main_txtVw_tip_percentage_id"
+                    android:layout_below="@id/activity_main_txtVw_tip_percentage_hint_id"
+                    android:layout_toRightOf="@id/activity_main_txtVw_tip_percentage_id"
+                    android:includeFontPadding="false"
+                    android:text="%"
+                    tools:text="%" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_amount_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_text_tip_amount"
+                    tools:text="Tip Amount" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_amount_id"
+                    style="@style/NumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/activity_main_txtVw_tip_amount_hint_id"
+                    android:text="17.32"
+                    tools:text="17.32" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_main_relLyt_split_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_relLyt_tip_amount_id"
+                android:paddingBottom="@dimen/activity_main_default_section_padding_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_people_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_text_people"
+                    tools:text="People" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_people_count_id"
+                    style="@style/NumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/activity_main_txtVw_people_hint_id"
+                    android:text="4"
+                    tools:text="4" />
+
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_per_person_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_text_each_persons_share"
+                    tools:text="Each person's share" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_share_id"
+                    style="@style/NumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/activity_main_txtVw_per_person_hint_id"
+                    android:text="17.32"
+                    tools:text="17.32" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/activity_main_divider_after_split_id"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/activity_main_relLyt_split_id"
+                android:background="@drawable/shape_divider"
+                />
+
+            <RelativeLayout
+                android:id="@+id/activity_main_relLyt_total_amount_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_divider_after_split_id"
+                android:paddingBottom="@dimen/activity_main_default_section_padding_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_main_default_section_padding_vertical">
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_total_amount_hint_id"
+                    style="@style/HintText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/hint_text_total_amount"
+                    tools:text="Total Amount" />
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_total_amount_id"
+                    style="@style/NumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/activity_main_txtVw_total_amount_hint_id"
+                    android:text="17.32"
+                    tools:text="17.32" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_relLyt_total_amount_id"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black_12percent"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:id="@+id/activity_main_txtVw_quote_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_quote"
+                        android:textSize="20sp"
+                        android:gravity="left"
+                        android:textStyle="italic"
+                        android:paddingBottom="16dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"/>
+
+                    <TextView
+                        android:id="@+id/activity_main_txtVw_quote_author_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_quote_author"
+                        android:layout_below="@id/activity_main_txtVw_quote_id"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!-- <LinearLayout
+                android:id="@+id/activity_main_relLyt_settings_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_main_relLyt_total_amount_id"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_relLyt_settings_tip_percentage_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingsRelativeLayout">
+
+                    <ImageView
+                        android:id="@+id/activity_main_imgVw_tip_percentage_id"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
+                        android:src="@drawable/face_pink_700_48dp"
+                        />
+                    <SeekBar
+                        android:id="@+id/activity_main_skBr_tip_percentage_id"
+                        style="@style/SeekBar"
+                        android:layout_toEndOf="@id/activity_main_imgVw_tip_percentage_id"/>
+
+                    <TextView
+                        android:id="@+id/activity_main_txtVw_tip_percentage_settings_value_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/activity_main_skBr_tip_percentage_id"
+                        style="@style/ValueText"
+                        tools:text="5"
+                        android:text="5"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_relLyt_settings_people_count_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingsRelativeLayout">
+
+                    <ImageView
+                        android:id="@+id/activity_main_imgVw_people_count_id"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
+                        android:src="@drawable/face_pink_700_48dp"
+                        />
+                    <SeekBar
+                        android:id="@+id/activity_main_skBr_people_count_id"
+                        style="@style/SeekBar"
+                        android:layout_toEndOf="@id/activity_main_imgVw_people_count_id"/>
+                    <TextView
+                        android:id="@+id/activity_main_txtVw_people_count_settings_value_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/activity_main_skBr_people_count_id"
+                        style="@style/ValueText"
+                        tools:text="5"
+                        android:text="5"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_relLyt_settings_satisfaction_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingsRelativeLayout">
+
+                    <ImageView
+                        android:id="@+id/activity_main_imgVw_satisfaction_id"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
+                        android:src="@drawable/face_pink_700_48dp"
+                        />
+                    <SeekBar
+                        android:id="@+id/activity_main_skBr_tip_satisfaction_id"
+                        style="@style/SeekBar"
+                        android:layout_toEndOf="@id/activity_main_imgVw_satisfaction_id"/>
+
+                    <TextView
+                        android:id="@+id/activity_main_txtVw_satisfaction_settings_value_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/activity_main_skBr_tip_satisfaction_id"
+                        style="@style/ValueText"
+                        tools:text="5"
+                        android:text="5"/>
+                </RelativeLayout>
+            </LinearLayout> -->
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

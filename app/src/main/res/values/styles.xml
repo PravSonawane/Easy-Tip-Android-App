@@ -8,12 +8,65 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorControlHighlight">@color/colorRipple</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Base.AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Base.AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="BillAmountText">
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/activity_main_txtVw_billAmountText_size</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
     
     <style name="NumberText">
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textAlignment">textEnd</item>
         <item name="android:textSize">@dimen/activity_main_txtVw_numberText_size</item>
     </style>
 
+    <style name="SymbolText">
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/activity_main_txtVw_symbolText_size</item>
+    </style>
+
+    <style name="HintText">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ValueText">
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/activity_main_txtVw_valueText_size</item>
+    </style>
+
+    <style name="SeekBar">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">24dp</item>
+    </style>
+
+    <style name="SettingsRelativeLayout">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
 </resources>
