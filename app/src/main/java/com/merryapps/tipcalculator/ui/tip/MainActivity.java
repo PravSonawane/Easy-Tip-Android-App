@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     //TODO add share icon in actionbar
     //TODO refactor split to numberOfPeople
 
-    private FloatingActionButton settingsFab;
-
     private static final String TAG = "MainActivity";
 
     private TipUiHandler tipUiHandler;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText billAmountEdtTxt;
     private TextView tipAmountTxtVw;
     private TextView tipPercentageTxtVw;
+    private FloatingActionButton settingsFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,4 +63,12 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d(TAG, "onWindowFocusChanged: called");
+        if(hasFocus) {
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_settings_fab_enter);
+            settingsFab.startAnimation(animation);
+        }
+    }
 }
