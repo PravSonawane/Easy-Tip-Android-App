@@ -25,8 +25,6 @@ public class SeedDataManager {
                 "Ayrton Senna", EntityState.LOCAL));
         quoteEntityDao.insertOrReplace(new QuoteEntity("A little thought and a little kindness are often worth more than a great deal of money.",
                 "John Ruskin", EntityState.LOCAL));
-        quoteEntityDao.insertOrReplace(new QuoteEntity("Let us not be satisfied with just giving money. Money is not enough, money can be got, but they need your hearts to love them. So, spread your love everywhere you go.",
-                "Mother Teresa", EntityState.LOCAL));
         quoteEntityDao.insertOrReplace(new QuoteEntity("Real riches are the riches possessed inside.",
                 "B.C. Forbes", EntityState.LOCAL));
         quoteEntityDao.insertOrReplace(new QuoteEntity("Wealth is the ability to fully experience life.",

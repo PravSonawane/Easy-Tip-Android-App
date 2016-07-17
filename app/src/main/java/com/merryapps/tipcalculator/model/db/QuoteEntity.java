@@ -98,8 +98,6 @@ public class QuoteEntity implements com.merryapps.tipcalculator.model.db.Entity 
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
-
-
     // KEEP METHODS END
 
 }

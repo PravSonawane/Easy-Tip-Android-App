@@ -25,31 +25,31 @@ public class TipCalculatorDaoGenerator {
 
     public static void main(String... args) throws Exception {
 
-        Schema invitoDbSchema = new Schema(1, ENTITY_PACKAGE_NAME);
+        Schema tipCalculatorDbSchema = new Schema(1, ENTITY_PACKAGE_NAME);
 
         //setting the package where the DAO code will be generated
-        invitoDbSchema.setDefaultJavaPackageDao(DAO_PACKAGE_NAME);
+        tipCalculatorDbSchema.setDefaultJavaPackageDao(DAO_PACKAGE_NAME);
 
-        invitoDbSchema.setDefaultJavaPackageTest(DAO_TEST_PACKAGE_NAME);
+        tipCalculatorDbSchema.setDefaultJavaPackageTest(DAO_TEST_PACKAGE_NAME);
 
         //enabling keep sections
-        invitoDbSchema.enableKeepSectionsByDefault();
+        tipCalculatorDbSchema.enableKeepSectionsByDefault();
 
-        //PhoneNumberEntity
-        Entity phoneNumberEntity = invitoDbSchema.addEntity("QuoteEntity");
-        describePhoneNumberEntityTable(phoneNumberEntity);
+        //QuoteEntity
+        Entity quoteEntity = tipCalculatorDbSchema.addEntity("QuoteEntity");
+        describeQuoteEntityTable(quoteEntity);
 
-        new DaoGenerator().generateAll(invitoDbSchema, "app/src/main/java");
+        new DaoGenerator().generateAll(tipCalculatorDbSchema, "app/src/main/java");
 
     }
 
-    private static void describePhoneNumberEntityTable(Entity phoneNumberEntity) {
-        phoneNumberEntity.addIdProperty();
-        phoneNumberEntity.setTableName(QUOTES_TBL_NAME);
-        phoneNumberEntity.implementsInterface(ENTITY_INTERFACE_FQDN);
-        phoneNumberEntity.addStringProperty("quote").unique().notNull();
-        phoneNumberEntity.addStringProperty("author").unique().notNull();
-        phoneNumberEntity.addStringProperty("entityState")
+    private static void describeQuoteEntityTable(Entity quoteEntity) {
+        quoteEntity.addIdProperty();
+        quoteEntity.setTableName(QUOTES_TBL_NAME);
+        quoteEntity.implementsInterface(ENTITY_INTERFACE_FQDN);
+        quoteEntity.addStringProperty("quote").unique().notNull();
+        quoteEntity.addStringProperty("author").unique().notNull();
+        quoteEntity.addStringProperty("entityState")
                 .customType(ENTITY_STATE_FQDN, ENTITY_STATE_CONVERTER_FQDN).notNull();
     }
 }

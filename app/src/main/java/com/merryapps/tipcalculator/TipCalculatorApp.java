@@ -17,7 +17,7 @@ import java.util.Properties;
  */
 public class TipCalculatorApp extends Application {
 
-    private static String TAG = "InvitoApp";
+    private static String TAG = "TipCalculatorApp";
     private String databaseName;
     private ManagerFactory managerFactory;
     private PropertyFile project;
