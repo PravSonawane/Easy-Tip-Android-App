@@ -3,15 +3,10 @@
 
     <string name="hint_txt_bill_amount">Bill Amount</string>
     <string name="hint_text_tip_amount">Tip Amount</string>
-    <string name="hint_text_tip_percentage">Tip percentage</string>
-    <string name="hint_text_each_persons_share">Each Person\'s share</string>
+    <string name="hint_text_tip_percentage">Tip Percentage</string>
+    <string name="hint_text_each_persons_share">Each Person\'s Share</string>
     <string name="hint_text_people">People</string>
     <string name="hint_text_total_amount">Total Amount</string>
-    <!--<string name="test_quote">Money is a strange business. People who haven\'t got it aim it strongly. People who have are full of troubles.</string>-->
-    <string name="test_quote">The importance of money flows from it being a link between the present and the future. </string>
-    <string name="test_quote_author">Ayrton Senna</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_text_round_up">Round Up</string>
 
 </resources>
