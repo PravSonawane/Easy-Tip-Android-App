@@ -1,15 +1,13 @@
 package com.merryapps.tipcalculator.ui.tip;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.merryapps.tipcalculator.R;
 
@@ -27,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private TipUiHandler tipUiHandler;
 
     private EditText billAmountEdtTxt;
-    private TextView tipAmountTxtVw;
-    private TextView tipPercentageTxtVw;
-    private FloatingActionButton settingsFab;
+
+    private FrameLayout fragmentPlaceholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +41,25 @@ public class MainActivity extends AppCompatActivity {
     private void initUiVariables() {
         Log.i(TAG, "initUiVariables: called");
         this.billAmountEdtTxt = (EditText) findViewById(R.id.activity_main_edtTxt_bill_amount_id);
+        this.fragmentPlaceholder = (FrameLayout) findViewById(R.id.activity_main_frmLyt_placeholder_id);
 
         initViews();
     }
 
     private void initViews() {
-        settingsFab = (FloatingActionButton) findViewById(R.id.fragment_main_settings_fab);
-        settingsFab.setOnClickListener(newSettingsFabOnClickListener());
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_frmLyt_placeholder_id, new MainFragment()).commit();
+
     }
 
-    private View.OnClickListener newSettingsFabOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingsDialogFragment dialogFragment = new SettingsDialogFragment();
-                dialogFragment.show(getSupportFragmentManager(), "SettingsDialogFragment");
-            }
-        };
-    }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         Log.d(TAG, "onWindowFocusChanged: called");
         if(hasFocus) {
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_settings_fab_enter);
-            settingsFab.startAnimation(animation);
+            //settingsFab.startAnimation(animation);
         }
     }
 }
