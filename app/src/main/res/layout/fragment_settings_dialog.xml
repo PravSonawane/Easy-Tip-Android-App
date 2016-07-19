@@ -15,35 +15,59 @@
                android:gravity="center"
                android:orientation="vertical">
 
-               <RelativeLayout
-                   android:id="@+id/activity_main_relLyt_settings_tip_percentage_id"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   style="@style/SettingsRelativeLayout">
+        <LinearLayout
+            android:id="@+id/fragment_dialog_settings_lnrlyt_percentage_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/fragment_dialog_settings_txtVw_percentage_hint_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Percentage"/>
 
-                   <ImageView
-                       android:id="@+id/activity_main_imgVw_tip_percentage_id"
-                       android:layout_width="20sp"
-                       android:layout_height="20sp"
-                       android:src="@drawable/percent_grey_600_18dp"
-                       android:layout_centerVertical="true"
-                       android:layout_alignParentStart="true" />
-                   <SeekBar
-                       android:id="@+id/activity_main_skBr_tip_percentage_id"
-                       style="@style/SeekBar"
-                       android:layout_marginLeft="12dp"
-                       android:layout_toEndOf="@id/activity_main_imgVw_tip_percentage_id"/>
+            <RelativeLayout
+                android:id="@+id/activity_main_relLyt_settings_tip_percentage_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SettingsRelativeLayout">
 
-                   <TextView
-                       android:id="@+id/activity_main_txtVw_tip_percentage_settings_value_id"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_alignParentTop="true"
-                       android:layout_toEndOf="@+id/activity_main_skBr_tip_percentage_id"
-                       style="@style/ValueText"
-                       tools:text="5"
-                       android:text="5"/>
-               </RelativeLayout>
+                <ImageView
+                    android:id="@+id/activity_main_imgVw_tip_percentage_id"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:src="@drawable/percent_grey_600_18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+                <SeekBar
+                    android:id="@+id/activity_main_skBr_tip_percentage_id"
+                    style="@style/SeekBar"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toEndOf="@id/activity_main_imgVw_tip_percentage_id"/>
+
+                <TextView
+                    android:id="@+id/activity_main_txtVw_tip_percentage_settings_value_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/activity_main_skBr_tip_percentage_id"
+                    style="@style/ValueText"
+                    tools:text="5"
+                    android:text="5"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/fragment_dialog_settings_lnrlyt_people_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/fragment_dialog_settings_txtVw_people_hint_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="People"/>
 
                <RelativeLayout
                    android:id="@+id/activity_main_relLyt_settings_people_count_id"
@@ -72,6 +96,19 @@
                        android:text="5"/>
                </RelativeLayout>
 
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_dialog_settings_lnrlyt_satisfaction_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/fragment_dialog_settings_txtVw_satisfaction_hint_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Percentage"/>
+
                <RelativeLayout
                    android:id="@+id/activity_main_relLyt_settings_satisfaction_id"
                    android:layout_width="wrap_content"
@@ -99,6 +136,8 @@
                        tools:text="5"
                        android:text="5"/>
                </RelativeLayout>
-           </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

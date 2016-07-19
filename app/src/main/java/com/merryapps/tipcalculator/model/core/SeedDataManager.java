@@ -19,8 +19,14 @@ public class SeedDataManager {
     }
 
     public void initializeDb() {
+        
+        //do not insert if database already has quotes
+        if(quoteEntityDao.count() > 0) {
+            Log.d(TAG, "initializeDb: not inserting as database already has quotes.");
+            return;
+        }
 
-        Log.d(TAG, "initializeDb: Inserting InvitationCategory objects - Initializing");
+        Log.d(TAG, "initializeDb: Inserting Quote objects - Initializing");
         quoteEntityDao.insertOrReplace(new QuoteEntity("The importance of money flows from it being a link between the present and the future.",
                 "Ayrton Senna", EntityState.LOCAL));
         quoteEntityDao.insertOrReplace(new QuoteEntity("A little thought and a little kindness are often worth more than a great deal of money.",
@@ -51,7 +57,7 @@ public class SeedDataManager {
 
 
 
-        Log.d(TAG, "initializeDb: Inserting InvitationCategory objects - done");
+        Log.d(TAG, "initializeDb: Inserting Quote objects - done");
 
 
 

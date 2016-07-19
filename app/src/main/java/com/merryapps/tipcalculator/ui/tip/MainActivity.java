@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -50,16 +48,5 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_main_frmLyt_placeholder_id, new MainFragment()).commit();
 
-    }
-
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        Log.d(TAG, "onWindowFocusChanged: called");
-        if(hasFocus) {
-            Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_settings_fab_enter);
-            //settingsFab.startAnimation(animation);
-        }
     }
 }

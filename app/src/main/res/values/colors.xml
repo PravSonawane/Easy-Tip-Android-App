@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorAccent">#C2185B</color>
+    <color name="colorPrimary">#8BC34A</color>
+    <color name="colorPrimaryDark">#689F38</color>
+    <color name="colorAccent">#FFC400</color>
 
     <!-- 12% opacity light background divider color -->
     <color name="dividerColorLightBackground">#1F000000</color>
@@ -10,4 +10,10 @@
     <color name="colorRipple">#B6B6B6</color>
 
     <color name="black_12percent">#1F000000</color>
+
+    <color name="colorSettingsBackground">#FFC400</color>
+
+    <color name="colorPrimaryColorSettings">#DEFFC107</color>
+
+    <color name="colorTextTransparent_54percent">#806600</color>
 </resources>

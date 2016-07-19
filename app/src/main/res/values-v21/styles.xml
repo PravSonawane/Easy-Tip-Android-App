@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SeekBar" parent="SeekBarBase">
+        <item name="android:thumbTint">@android:color/white</item>
+        <item name="android:progressTint">@android:color/white</item>
+    </style>
+</resources>
