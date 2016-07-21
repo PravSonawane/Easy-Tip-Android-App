@@ -9,6 +9,10 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextWatcher;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -22,9 +26,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.merryapps.tipcalculator.R;
@@ -41,17 +45,19 @@ public class MainFragment extends AbstractFragment {
 
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
+    private EditText billAmountEdtTxt;
+    private TextView tipAmountTxtVw;
+    private TextView tipPercentageTxtVw;
+    private TextView eachPersonsShareTxtVw;
+    private TextView peopleCountTxtVw;
+    private TextView totalTxtVw;
+
     private FloatingActionButton settingsFab;
     private RelativeLayout fragmentParent;
-
     private RelativeLayout quoteRelLyt;
     private LinearLayout settingsLnrLyt;
-    private LinearLayout tipPercentangeSettingsLnrLyt;
-    private ScrollView scrollView;
-
     private Button btnDone;
     private Button btnCancel;
-
 
 
     private int finalYCoordinate;
@@ -59,6 +65,7 @@ public class MainFragment extends AbstractFragment {
     private Animation settingsFabEnterAnimation;
     private QuoteManager quoteManager;
     private DisplayMetrics displayMetrics;
+    private TipUiHandler tipUiHandler;
 
     public MainFragment() {
         // Required empty public constructor
@@ -72,11 +79,11 @@ public class MainFragment extends AbstractFragment {
         initViews(view);
         setupAnimations();
         setupListeners(view);
-        startAnimations();
+
         initDb();
         setQuote();
         initializeInstanceVariables();
-
+        startAnimations();
         return view;
     }
 
@@ -85,10 +92,58 @@ public class MainFragment extends AbstractFragment {
         MainFragment.this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         finalYCoordinate = (int) (displayMetrics.heightPixels * 0.57);
         finalXCoordinate = displayMetrics.widthPixels / 2;
+        tipUiHandler = new TipUiHandler();
     }
 
     private void setupListeners(View view) {
         settingsFab.setOnClickListener(newSettingsFabOnClickListener(view));
+
+        billAmountEdtTxt.setFilters(new InputFilter[] { this.createFilter() });
+        billAmountEdtTxt.addTextChangedListener(newBillAmountTextWatcher());
+    }
+
+    private TextWatcher newBillAmountTextWatcher() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+    }
+
+    private InputFilter createFilter() {
+        return new InputFilter() {
+            final int maxDigitsBeforeDecimalPoint=9;
+            final int maxDigitsAfterDecimalPoint=2;
+
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                StringBuilder builder = new StringBuilder(dest);
+                builder.replace(dstart, dend, source.subSequence(start, end).toString());
+                if (!builder.toString().matches(
+                        "(([1-9]{1})([0-9]{0,"+(maxDigitsBeforeDecimalPoint-1)+"})?)?(\\.[0-9]{0,"+maxDigitsAfterDecimalPoint+"})?"
+
+                )) {
+                    if(source.length()==0)
+                        return dest.subSequence(dstart, dend);
+                    return "";
+                }
+
+                return null;
+
+            }
+        };
     }
 
     private void startAnimations() {
@@ -104,11 +159,15 @@ public class MainFragment extends AbstractFragment {
         fragmentParent = (RelativeLayout) view.findViewById(R.id.fragment_main_relLyt_parent_id);
         quoteTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_quote_id);
         quoteAuthorTextVw = (TextView) view.findViewById(R.id.activity_main_txtVw_quote_author_id);
-        tipPercentangeSettingsLnrLyt = (LinearLayout) view.findViewById(R.id.fragment_dialog_settings_lnrlyt_percentage_id);
-        scrollView = (ScrollView) view.findViewById(R.id.activity_main_parent_scrllVw_id);
         quoteRelLyt = (RelativeLayout) view.findViewById(R.id.activity_main_relLyt_quote_id);
         settingsLnrLyt = (LinearLayout) view.findViewById(R.id.activity_main_lnrLyt_settings_id);
         settingsFab = (FloatingActionButton) view.findViewById(R.id.fragment_main_settings_fab);
+        billAmountEdtTxt = (EditText) view.findViewById(R.id.activity_main_edtTxt_bill_amount_id);
+        tipAmountTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_amount_id);
+        tipPercentageTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_percentage_id);
+        eachPersonsShareTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_share_id);
+        peopleCountTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_people_count_id);
+        totalTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_total_amount_id);
     }
 
     @NonNull
