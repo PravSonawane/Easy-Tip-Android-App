@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- animation resources -->
+    <integer name="layoutTransitionDuration">400</integer>
+    <integer name="animateRevealHideDuration">300</integer>
+    <integer name="animateRevealDuration">300</integer>
+</resources>

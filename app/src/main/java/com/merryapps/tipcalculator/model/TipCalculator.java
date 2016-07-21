@@ -172,18 +172,22 @@ public class TipCalculator {
      * the current tip amount. Else it is rounded to the next highest integer.
      * Dependent values are recalculated.
      */
-    public void roundTipAmount() {
-        BigInteger integralPart = this.tipAmount.toBigInteger();
+    public void roundTotalAmount() {
+        BigDecimal oldTotalAmount = this.totalAmount;
+        BigInteger integralPart = this.totalAmount.toBigInteger();
 
-        if(this.tipAmount.compareTo(new BigDecimal(integralPart.intValue() + 0.5)) >= 0) {
-            this.tipAmount = new BigDecimal(integralPart.intValue() + 1).setScale(SCALE, ROUNDING_MODE_HALF_UP);
+        if(this.totalAmount.compareTo(new BigDecimal(integralPart.intValue() + 0.5)) >= 0) {
+            this.totalAmount = new BigDecimal(integralPart.intValue() + 1).setScale(SCALE, ROUNDING_MODE_HALF_UP);
         } else {
-            this.tipAmount = new BigDecimal(integralPart).setScale(SCALE, ROUNDING_MODE_HALF_UP);;
+            this.totalAmount = new BigDecimal(integralPart).setScale(SCALE, ROUNDING_MODE_HALF_UP);
         }
 
-        this.tipPercentage = calculateTipPercentageFromTipAmount();
-        this.totalAmount = calculateTotalAmount();
-        this.eachPersonsShare = calculateEachPersonsShare();
+        if (!oldTotalAmount.equals(this.totalAmount)) {
+            this.tipAmount = this.tipAmount.add(this.totalAmount.subtract(oldTotalAmount));
+            this.tipPercentage = calculateTipPercentageFromTipAmount();
+            this.eachPersonsShare = calculateEachPersonsShare();
+        }
+
     }
 
     public void editBillAmount(BigDecimal newBillAmount) {

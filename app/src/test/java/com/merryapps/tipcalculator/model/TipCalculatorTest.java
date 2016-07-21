@@ -398,7 +398,7 @@ public class TipCalculatorTest {
         assertEquals(new BigDecimal("42.40"), tipCalculator.getTotalAmount());
 
         //modify the tip percentage
-        tipCalculator.roundTipAmount();
+        tipCalculator.roundTotalAmount();
 
         assertEquals(new BigDecimal("40.00"), tipCalculator.getBillAmount());
         assertEquals(new BigDecimal("5.00"), tipCalculator.getTipPercentage());
@@ -419,7 +419,7 @@ public class TipCalculatorTest {
         assertEquals(new BigDecimal("42.00"), tipCalculator.getTotalAmount());
 
         //modify the tip percentage
-        tipCalculator.roundTipAmount();
+        tipCalculator.roundTotalAmount();
 
         assertEquals(new BigDecimal("40.00"), tipCalculator.getBillAmount());
         assertEquals(new BigDecimal("5.00"), tipCalculator.getTipPercentage());
@@ -430,7 +430,7 @@ public class TipCalculatorTest {
     }
 
     @Test
-    public void testRoundTipAmountWhenTipAmountIsCloseToNextWholeNumber() {
+    public void testRoundTotalAmountWhenTotalAmountIsCloseToNextWholeNumber() {
         TipCalculator tipCalculator = new TipCalculator(new BigDecimal("40"), new BigDecimal("7"), 2);
 
         assertEquals(new BigDecimal("40.00"), tipCalculator.getBillAmount());
@@ -440,7 +440,7 @@ public class TipCalculatorTest {
         assertEquals(new BigDecimal("42.80"), tipCalculator.getTotalAmount());
 
         //modify the tip percentage
-        tipCalculator.roundTipAmount();
+        tipCalculator.roundTotalAmount();
 
         assertEquals(new BigDecimal("40.00"), tipCalculator.getBillAmount());
         assertEquals(new BigDecimal("7.50"), tipCalculator.getTipPercentage());
@@ -451,7 +451,7 @@ public class TipCalculatorTest {
     }
 
     @Test
-    public void testRoundTipAmountWhenTipAmountIsHalfAFraction() {
+    public void testRoundTotalAmountWhenTotalAmountIsHalfAFraction() {
         TipCalculator tipCalculator = new TipCalculator(new BigDecimal("50"), new BigDecimal("5"), 2);
 
         assertEquals(new BigDecimal("50.00"), tipCalculator.getBillAmount());
@@ -461,13 +461,34 @@ public class TipCalculatorTest {
         assertEquals(new BigDecimal("52.50"), tipCalculator.getTotalAmount());
 
         //modify the tip percentage
-        tipCalculator.roundTipAmount();
+        tipCalculator.roundTotalAmount();
 
         assertEquals(new BigDecimal("50.00"), tipCalculator.getBillAmount());
         assertEquals(new BigDecimal("6.00"), tipCalculator.getTipPercentage());
         assertEquals(new BigDecimal("3.00"), tipCalculator.getTipAmount());
         assertEquals(new BigDecimal("26.50"), tipCalculator.getEachPersonsShare());
         assertEquals(new BigDecimal("53.00"), tipCalculator.getTotalAmount());
+
+    }
+
+    @Test
+    public void testRoundTotalAmountWhenTotalAmountIsFractional() {
+        TipCalculator tipCalculator = new TipCalculator(new BigDecimal("37.43"), new BigDecimal("6"), 2);
+
+        assertEquals(new BigDecimal("37.43"), tipCalculator.getBillAmount());
+        assertEquals(new BigDecimal("6.00"), tipCalculator.getTipPercentage());
+        assertEquals(new BigDecimal("2.25"), tipCalculator.getTipAmount());
+        assertEquals(new BigDecimal("19.84"), tipCalculator.getEachPersonsShare());
+        assertEquals(new BigDecimal("39.68"), tipCalculator.getTotalAmount());
+
+        //modify the tip percentage
+        tipCalculator.roundTotalAmount();
+
+        assertEquals(new BigDecimal("37.43"), tipCalculator.getBillAmount());
+        assertEquals(new BigDecimal("6.87"), tipCalculator.getTipPercentage());
+        assertEquals(new BigDecimal("2.57"), tipCalculator.getTipAmount());
+        assertEquals(new BigDecimal("20.00"), tipCalculator.getEachPersonsShare());
+        assertEquals(new BigDecimal("40.00"), tipCalculator.getTotalAmount());
 
     }
 

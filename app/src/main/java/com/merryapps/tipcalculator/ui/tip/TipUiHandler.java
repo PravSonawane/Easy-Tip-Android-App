@@ -3,8 +3,6 @@ package com.merryapps.tipcalculator.ui.tip;
 import com.merryapps.tipcalculator.model.TipCalculator;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by mephisto on 7/4/16.
@@ -25,8 +23,6 @@ public class TipUiHandler {
     private String eachPersonsShare;
 
     private RoundMode roundMode;
-    private ServiceRating serviceRating;
-    private Map<ServiceRating, Integer> serviceRatingTipPercentageMap;
 
     private TipCalculator currentTipCalculator;
     private TipCalculator preRoundingTipCalculator;
@@ -40,13 +36,6 @@ public class TipUiHandler {
         this.totalAmount = DECIMAL_0_STRING;
 
         this.roundMode = RoundMode.NOT_ROUNDED;
-        this.serviceRating = ServiceRating.GOOD;
-
-        this.serviceRatingTipPercentageMap = new HashMap<>(ServiceRating.getServiceRatingCount());
-        this.serviceRatingTipPercentageMap.put(ServiceRating.OK, 10);
-        this.serviceRatingTipPercentageMap.put(ServiceRating.GOOD, 15);
-        this.serviceRatingTipPercentageMap.put(ServiceRating.VERY_GOOD, 20);
-
         this.currentTipCalculator = new TipCalculator(
                 new BigDecimal(DECIMAL_0_STRING),
                 new BigDecimal(this.tipPercentage),
@@ -56,25 +45,6 @@ public class TipUiHandler {
 
     public String getBillAmount() {
         return this.currentTipCalculator.getBillAmount().toString();
-    }
-
-    public ServiceRating getServiceRating() {
-        return serviceRating;
-    }
-
-    void setServiceRating(ServiceRating serviceRating) {
-        this.serviceRating = serviceRating;
-        switch (serviceRating) {
-            case OK:
-                this.setTipPercentage(Integer.toString(serviceRatingTipPercentageMap.get(ServiceRating.OK)));
-                break;
-            case GOOD:
-                this.setTipPercentage(Integer.toString(serviceRatingTipPercentageMap.get(ServiceRating.GOOD)));
-                break;
-            case VERY_GOOD:
-                this.setTipPercentage(Integer.toString(serviceRatingTipPercentageMap.get(ServiceRating.VERY_GOOD)));
-                break;
-        }
     }
 
     public RoundMode getRoundMode() {
@@ -89,7 +59,7 @@ public class TipUiHandler {
                 this.preRoundingTipCalculator = new TipCalculator(this.currentTipCalculator.getBillAmount(),
                         this.currentTipCalculator.getTipPercentage(),
                         this.currentTipCalculator.getNumberOfPeople());
-                this.currentTipCalculator.roundTipAmount();
+                this.currentTipCalculator.roundTotalAmount();
                 break;
             case NOT_ROUNDED:
                 if (this.preRoundingTipCalculator == null) {
@@ -126,16 +96,8 @@ public class TipUiHandler {
         return this.currentTipCalculator.getTipAmount().toString();
     }
 
-    public void setTipAmount(String tipAmount) {
-        this.tipAmount = tipAmount;
-    }
-
     public String getTotalAmount() {
         return this.currentTipCalculator.getTotalAmount().toString();
-    }
-
-    public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount;
     }
 
     public String getNumberOfPeople() {
@@ -154,7 +116,4 @@ public class TipUiHandler {
         return this.currentTipCalculator.getEachPersonsShare().toString();
     }
 
-    public void setEachPersonsShare(String eachPersonsShare) {
-        this.eachPersonsShare = eachPersonsShare;
-    }
 }
