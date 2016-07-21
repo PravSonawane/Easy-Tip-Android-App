@@ -3,5 +3,8 @@
     <solid android:color="#1F000000"/>
     <stroke android:width="0dip" android:color="#1F000000" />
     <corners android:radius="8dip"/>
-    <padding android:left="0dip" android:top="0dip" android:right="0dip" android:bottom="0dip" />
+    <padding android:left="@dimen/activity_main_quote_relLyt_padding_all"
+        android:top="@dimen/activity_main_quote_relLyt_padding_all"
+        android:right="@dimen/activity_main_quote_relLyt_padding_all"
+        android:bottom="@dimen/activity_main_quote_relLyt_padding_all" />
 </shape>

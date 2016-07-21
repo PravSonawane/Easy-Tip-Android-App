@@ -252,7 +252,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_rounded_corners_12percent_black"
-                        android:padding="24dp"
+                        android:padding="@dimen/activity_main_quote_relLyt_padding_all"
                         android:animateLayoutChanges="true">
 
                         <TextView

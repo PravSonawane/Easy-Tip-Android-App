@@ -7,7 +7,7 @@
     <!-- 12% opacity light background divider color -->
     <color name="dividerColorLightBackground">#1F000000</color>
 
-    <color name="colorRipple">#B6B6B6</color>
+    <color name="colorBackgroundQuote">#B6B6B6</color>
 
     <color name="black_12percent">#1F000000</color>
 

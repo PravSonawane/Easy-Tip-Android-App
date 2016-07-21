@@ -23,4 +23,7 @@
     <dimen name="settings_seekbar_padding_start">24dp</dimen>
     <dimen name="settings_seekbar_padding_end">16dp</dimen>
 
+    <!-- quote relLyt -->
+    <dimen name="activity_main_quote_relLyt_padding_all">24dp</dimen>
+
 </resources>

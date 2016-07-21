@@ -61,6 +61,9 @@ public class MainFragment extends AbstractFragment {
 
     private int finalYCoordinate;
     private int finalXCoordinate;
+    private Animation settingsFabEnterAnimation;
+    private QuoteManager quoteManager;
+    private DisplayMetrics displayMetrics;
 
     public MainFragment() {
         // Required empty public constructor
@@ -96,15 +99,15 @@ public class MainFragment extends AbstractFragment {
         //settingsRelLyt = (LinearLayout) view.findViewById(R.id.activity_main_lnrLyt_settings_id);
         settingsFab = (FloatingActionButton) view.findViewById(R.id.fragment_main_settings_fab);
         settingsFab.setOnClickListener(newSettingsFabOnClickListener(view));
-        Animation animation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.anim_settings_fab_enter);
-        settingsFab.startAnimation(animation);
+        settingsFabEnterAnimation = AnimationUtils.loadAnimation(this.getActivity(), R.anim.anim_settings_fab_enter);
+        settingsFab.startAnimation(settingsFabEnterAnimation);
         initDb();
         setQuote();
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        MainFragment.this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        finalYCoordinate = (int) (metrics.heightPixels * 0.57);
-        finalXCoordinate = metrics.widthPixels / 2;
+        displayMetrics = new DisplayMetrics();
+        MainFragment.this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        finalYCoordinate = (int) (displayMetrics.heightPixels * 0.57);
+        finalXCoordinate = displayMetrics.widthPixels / 2;
         return view;
     }
 
@@ -112,18 +115,6 @@ public class MainFragment extends AbstractFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*ViewGroup.LayoutParams oririnalParams = settingsRelLyt.getLayoutParams();
-                RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                newParams.addRule(RelativeLayout.BELOW, R.id.activity_main_relLyt_total_amount_id);
-                settingsRelLyt.setLayoutParams(newParams);*/
-                //settingsRelLyt.setVisibility(View.VISIBLE);
-                //SettingsDialogFragment dialogFragment = new SettingsDialogFragment();
-                //dialogFragment.show(MainFragment.this.getActivity().getSupportFragmentManager(), "SettingsDialogFragment");
-
-                //settingsLnrLyt.setVisibility(View.VISIBLE);
-                //RelativeLayout.LayoutParams newParams1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                //newParams1.addRule(RelativeLayout.BELOW, R.id.activity_main_lnrLyt_settings_id);
-                //quoteRelLyt.setLayoutParams(newParams1);
                 btnDone = (Button) view.findViewById(R.id.fragment_dialog_settings_btn_done_id);
                 btnCancel = (Button) view.findViewById(R.id.fragment_dialog_settings_btn_cancel_id);
                 btnDone.setOnClickListener(newDoneButtonOnClickListener());
@@ -131,7 +122,6 @@ public class MainFragment extends AbstractFragment {
 
 
                 if(Build.VERSION.SDK_INT >= 21) {
-                    final ViewGroup.LayoutParams originalParams = settingsFab.getLayoutParams();
                     Transition arcMotion = TransitionInflater.from(MainFragment.this.getActivity()).inflateTransition(R.transition.arc_motion);
 
                     arcMotion.addListener(new Transition.TransitionListener() {
@@ -140,9 +130,6 @@ public class MainFragment extends AbstractFragment {
 
                             quoteTxtVw.setVisibility(View.GONE);
                             quoteAuthorTextVw.setVisibility(View.GONE);
-                            //tipPercentageSettingsRelLyt.setVisibility(View.VISIBLE);
-                            //peopleCountSettingsRelLyt.setVisibility(View.VISIBLE);
-                            //quoteRelLyt.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -161,7 +148,7 @@ public class MainFragment extends AbstractFragment {
                             Log.d(TAG, "onTransitionEnd: center x:" + rect.exactCenterX());
                             Log.d(TAG, "onTransitionEnd: center y:" + rect.exactCenterY());
                             Log.d(TAG, "onTransitionEnd: quoteRelLyt location[0]:" + outLocation[0] + " location[1]:" + outLocation[1]);
-                            animateRevealColorFromCoordinates(quoteRelLyt, R.color.colorSettingsBackground, finalXCoordinate, 0);
+                            animateRevealColorFromCoordinates(quoteRelLyt, R.color.colorSettingsBackground, finalXCoordinate/2, 0);
                             quoteRelLyt.setBackgroundResource(R.drawable.background_rounded_corners_500_yellow);
                             MainFragment.this.scrollView.post(new Runnable() {
                                 @Override
@@ -190,15 +177,8 @@ public class MainFragment extends AbstractFragment {
 
                     //new params
                     RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    //newParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-
-                    /*newParams.topMargin = (int)(metrics.heightPixels * 0.75);
-                    newParams.leftMargin = (int)(metrics.widthPixels * 0.50);*/
-
-
                     newParams.topMargin = finalYCoordinate;
-                    newParams.leftMargin = finalXCoordinate;
+                    newParams.leftMargin = finalXCoordinate/2;
                     settingsFab.setLayoutParams(newParams);
                 }
 
@@ -207,87 +187,96 @@ public class MainFragment extends AbstractFragment {
     }
 
     private View.OnClickListener newCancelButtonOnClickListener() {
-        return null;
-    }
-
-    private View.OnClickListener newDoneButtonOnClickListener() {
         return new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
                 if(Build.VERSION.SDK_INT >= 21) {
-                    final ViewGroup.LayoutParams originalParams = settingsFab.getLayoutParams();
-                    Transition arcMotion = TransitionInflater.from(MainFragment.this.getActivity()).inflateTransition(R.transition.arc_motion);
-
-                    arcMotion.addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {
 
 
-                            //tipPercentageSettingsRelLyt.setVisibility(View.VISIBLE);
-                            //peopleCountSettingsRelLyt.setVisibility(View.VISIBLE);
-                            //quoteRelLyt.setVisibility(View.GONE);
+                    int[] outLocation = new int[2];
+                    quoteRelLyt.getLocationInWindow(outLocation);
+                    Rect rect = new Rect();
+                    quoteRelLyt.getGlobalVisibleRect(rect);
+                    Log.d(TAG, "newDoneButtonOnClickListener: center x:" + rect.exactCenterX());
+                    Log.d(TAG, "newDoneButtonOnClickListener: center y:" + rect.exactCenterY());
+                    Log.d(TAG, "newDoneButtonOnClickListener: quoteRelLyt location[0]:" + outLocation[0] + " location[1]:" + outLocation[1]);
 
-                            settingsFab.setVisibility(View.VISIBLE);
-                            settingsLnrLyt.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            //settingsFab.setLayoutParams(originalParams);
-                            quoteTxtVw.setVisibility(View.VISIBLE);
-                            quoteAuthorTextVw.setVisibility(View.VISIBLE);
-
-                            Log.d(TAG, "onTransitionEnd: finalXCoordinate:" + finalXCoordinate);
-                            Log.d(TAG, "onTransitionEnd: finalYCoordinate:" + finalYCoordinate);
-
-                            int[] outLocation = new int[2];
-                            tipPercentangeSettingsLnrLyt.getLocationInWindow(outLocation);
-                            Rect rect = new Rect();
-                            tipPercentangeSettingsLnrLyt.getGlobalVisibleRect(rect);
-                            Log.d(TAG, "onTransitionEnd: center x:" + rect.exactCenterX());
-                            Log.d(TAG, "onTransitionEnd: center y:" + rect.exactCenterY());
-                            Log.d(TAG, "onTransitionEnd: quoteRelLyt location[0]:" + outLocation[0] + " location[1]:" + outLocation[1]);
-                            animateRevealColorFromCoordinates(quoteRelLyt, R.color.colorSettingsBackground, finalXCoordinate, 0);
-                            quoteRelLyt.setBackgroundResource(R.drawable.background_rounded_corners_500_yellow);
-                            MainFragment.this.scrollView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
-                    });
-                    TransitionManager.beginDelayedTransition(fragmentParent, arcMotion);
-
-                    //new params
-                    RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    //newParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-
-                    /*newParams.topMargin = (int)(metrics.heightPixels * 0.75);
-                    newParams.leftMargin = (int)(metrics.widthPixels * 0.50);*/
-
-
-                    newParams.topMargin = finalYCoordinate;
-                    newParams.leftMargin = finalXCoordinate;
-                    settingsFab.setLayoutParams(newParams);
+                    Animator animator = animateRevealHide(quoteRelLyt, R.color.colorPrimaryColorSettings,
+                            (int)(displayMetrics.widthPixels - displayMetrics.widthPixels * 0.40),
+                            (int)(finalYCoordinate - finalYCoordinate * 0.60));
+                    if(animator != null) {
+                        animator.addListener(newOnRevealHideListener());
+                        animator.start();
+                    }
                 }
+            }
+        };
+    }
+
+    private View.OnClickListener newDoneButtonOnClickListener() {
+
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if(Build.VERSION.SDK_INT >= 21) {
+
+
+                    int[] outLocation = new int[2];
+                    quoteRelLyt.getLocationInWindow(outLocation);
+                    Rect rect = new Rect();
+                    quoteRelLyt.getGlobalVisibleRect(rect);
+                    Log.d(TAG, "newDoneButtonOnClickListener: center x:" + rect.exactCenterX());
+                    Log.d(TAG, "newDoneButtonOnClickListener: center y:" + rect.exactCenterY());
+                    Log.d(TAG, "newDoneButtonOnClickListener: quoteRelLyt location[0]:" + outLocation[0] + " location[1]:" + outLocation[1]);
+
+                    Animator animator = animateRevealHide(quoteRelLyt, R.color.colorPrimaryColorSettings,
+                            (int)(displayMetrics.widthPixels - displayMetrics.widthPixels * 0.20),
+                            (int)(finalYCoordinate - finalYCoordinate * 0.60));
+                    if(animator != null) {
+                        animator.addListener(newOnRevealHideListener());
+                        animator.start();
+                    }
+                }
+            }
+        };
+    }
+
+    private Animator.AnimatorListener newOnRevealHideListener() {
+        Log.d(TAG, "newOnRevealHideListener() called");
+        return new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                settingsLnrLyt.setVisibility(View.GONE);
+                quoteTxtVw.setVisibility(View.VISIBLE);
+                quoteAuthorTextVw.setVisibility(View.VISIBLE);
+                quoteRelLyt.setBackgroundResource(R.drawable.background_rounded_corners_12percent_black);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+                //new params
+                RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                newParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                newParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+                settingsFab.setLayoutParams(newParams);
+                settingsFab.setVisibility(View.VISIBLE);
+                settingsFab.startAnimation(settingsFabEnterAnimation);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
             }
         };
     }
@@ -307,8 +296,36 @@ public class MainFragment extends AbstractFragment {
 
     }
 
+    /**
+     * Animates a reveal hide on the given viewRoot at the given coordinates
+     * @param viewRoot the view group to animate in.
+     * @param color the color of the animation
+     * @param cx the x coordinate of center
+     * @param cy the y coordinate of center
+     * @return the animator if Build.VERSION.SDK_INT >= 21, else null.
+     */
+    private Animator animateRevealHide(final ViewGroup viewRoot, @ColorRes int color, int cx, int cy) {
+        Log.d(TAG, "animateRevealHide() called with: " + "viewRoot = [" + viewRoot + "], color = [" + color + "], cx = [" + cx + "], cy = [" + cy + "]");
+
+        if(Build.VERSION.SDK_INT >= 21) {
+            Log.i(TAG, "animateRevealHide: SDK_INT >= 21");
+
+            float initialRadius = (float) Math.hypot(viewRoot.getWidth(), viewRoot.getHeight());
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, initialRadius, 0);
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(300);
+            return anim;
+        } else {
+            Log.i(TAG, "animateRevealHide: SDK_INT < 21");
+            viewRoot.setBackgroundColor(getResources().getColor(color));
+            return null;
+        }
+
+    }
+
     private void setQuote() {
-        QuoteManager quoteManager = managerFactory().quoteManager();
+        quoteManager = managerFactory().quoteManager();
         Quote quote = quoteManager.getRandomQuote();
         quoteTxtVw.setText(quote.getQuote());
         quoteAuthorTextVw.setText(quote.getAuthor());
