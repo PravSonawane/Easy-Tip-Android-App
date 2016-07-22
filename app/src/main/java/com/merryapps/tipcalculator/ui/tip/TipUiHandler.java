@@ -61,12 +61,14 @@ public class TipUiHandler {
                 this.currentTipCalculator.roundTotalAmount();
                 break;
             case NOT_ROUNDED:
-                if (this.preRoundingTipCalculator == null) {
+                /*if (this.preRoundingTipCalculator == null) {
                     throw new IllegalStateException("No pre rounding data found! " +
                             "This probably occurred because you were trying to remove rounding when its already not rounded!");
-                }
-                this.currentTipCalculator = preRoundingTipCalculator;
-                this.preRoundingTipCalculator = null;
+                }*/
+                this.currentTipCalculator = new TipCalculator(this.preRoundingTipCalculator.getBillAmount(),
+                        this.preRoundingTipCalculator.getTipPercentage(),
+                        this.preRoundingTipCalculator.getNumberOfPeople());
+                //this.preRoundingTipCalculator = null;
                 break;
         }
         this.roundMode = roundMode;
@@ -74,9 +76,8 @@ public class TipUiHandler {
 
     public void setBillAmount(String billAmount) {
         this.billAmount = billAmount;
-        if (this.getRoundMode().equals(RoundMode.ROUNDED)) {
-            this.setRoundMode(RoundMode.NOT_ROUNDED);
-        }
+        this.roundMode = RoundMode.NOT_ROUNDED;
+        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editBillAmount(new BigDecimal(this.billAmount));
     }
 
@@ -86,9 +87,8 @@ public class TipUiHandler {
 
     public void setTipPercentage(String tipPercentage) {
         this.tipPercentage = tipPercentage;
-        if (this.getRoundMode().equals(RoundMode.ROUNDED)) {
-            this.setRoundMode(RoundMode.NOT_ROUNDED);
-        }
+        this.roundMode = RoundMode.NOT_ROUNDED;
+        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editTipPercentage(new BigDecimal(this.tipPercentage));
     }
 
@@ -106,9 +106,8 @@ public class TipUiHandler {
 
     public void setNumberOfPeople(String numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
-        if (this.getRoundMode().equals(RoundMode.ROUNDED)) {
-            this.setRoundMode(RoundMode.NOT_ROUNDED);
-        }
+        this.roundMode = RoundMode.NOT_ROUNDED;
+        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editNumberOfPeople(Integer.parseInt(numberOfPeople));
     }
 

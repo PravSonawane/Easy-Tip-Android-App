@@ -82,6 +82,7 @@ public class MainFragment extends AbstractFragment {
     private QuoteManager quoteManager;
     private DisplayMetrics displayMetrics;
     private TipUiHandler tipUiHandler;
+    private CompoundButton.OnCheckedChangeListener roundUpSwitchListener;
 
     public MainFragment() {
         // Required empty public constructor
@@ -125,7 +126,8 @@ public class MainFragment extends AbstractFragment {
         billAmountEdtTxt.addTextChangedListener(newBillAmountTextWatcher());
         percentageSeekbar.setOnSeekBarChangeListener(newPercentageSeekbarChangeListener());
         peopleCountSeekbar.setOnSeekBarChangeListener(newPeopleCountSeekbarChangeListener());
-        roundUpSwitch.setOnCheckedChangeListener(newRoundUpSwitchListener());
+        roundUpSwitchListener = newRoundUpSwitchListener();
+        roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
     }
 
     private CompoundButton.OnCheckedChangeListener newRoundUpSwitchListener() {
@@ -169,7 +171,10 @@ public class MainFragment extends AbstractFragment {
                 totalTxtVw.setText(tipUiHandler.getTotalAmount());
                 peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                 eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                roundUpSwitch.setOnCheckedChangeListener(null);
                 roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
             }
 
             @Override
@@ -201,7 +206,10 @@ public class MainFragment extends AbstractFragment {
                 totalTxtVw.setText(tipUiHandler.getTotalAmount());
                 peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                 eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                roundUpSwitch.setOnCheckedChangeListener(null);
                 roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
             }
 
             @Override
@@ -238,7 +246,10 @@ public class MainFragment extends AbstractFragment {
                     totalTxtVw.setText(tipUiHandler.getTotalAmount());
                     peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                    roundUpSwitch.setOnCheckedChangeListener(null);
                     roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 } else if (billAmountString.endsWith(".")) {
                     tipUiHandler.setBillAmount(billAmountString + "00");
                     tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
@@ -246,7 +257,10 @@ public class MainFragment extends AbstractFragment {
                     totalTxtVw.setText(tipUiHandler.getTotalAmount());
                     peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                    roundUpSwitch.setOnCheckedChangeListener(null);
                     roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 } else if(Double.parseDouble(billAmountString) > 0) {
                     tipUiHandler.setBillAmount(billAmountString);
                     tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
@@ -254,7 +268,9 @@ public class MainFragment extends AbstractFragment {
                     totalTxtVw.setText(tipUiHandler.getTotalAmount());
                     peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                    roundUpSwitch.setOnCheckedChangeListener(null);
                     roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 }
             }
 
