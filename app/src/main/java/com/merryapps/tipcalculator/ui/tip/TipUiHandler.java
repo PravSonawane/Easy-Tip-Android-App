@@ -52,7 +52,6 @@ public class TipUiHandler {
     }
 
     void setRoundMode(RoundMode roundMode) {
-        this.roundMode = roundMode;
         switch (roundMode) {
             case ROUNDED:
                 //take a backup before rounding
@@ -70,6 +69,7 @@ public class TipUiHandler {
                 this.preRoundingTipCalculator = null;
                 break;
         }
+        this.roundMode = roundMode;
     }
 
     public void setBillAmount(String billAmount) {

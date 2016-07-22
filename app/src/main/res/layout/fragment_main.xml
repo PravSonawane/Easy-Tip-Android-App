@@ -48,8 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@id/activity_main_txtVw_bill_amount_hint_id"
-                    tools:text="42.42" />
+                    android:layout_below="@id/activity_main_txtVw_bill_amount_hint_id"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -78,7 +77,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_main_txtVw_tip_percentage_hint_id"
-                    android:text="15"
                     tools:text="15" />
 
                 <TextView
@@ -112,7 +110,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/activity_main_txtVw_tip_amount_hint_id"
-                    android:text="17.32"
                     tools:text="17.32" />
 
             </RelativeLayout>
@@ -145,7 +142,6 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@id/activity_main_txtVw_people_hint_id"
-                    android:text="4"
                     tools:text="4" />
 
 
@@ -167,7 +163,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/activity_main_txtVw_per_person_hint_id"
-                    android:text="17.32"
                     tools:text="17.32" />
 
 
@@ -208,9 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@id/activity_main_txtVw_total_amount_hint_id"
-                    android:text="17.32"
                     tools:text="17.32" />
 
                 <TextView
@@ -313,7 +306,7 @@
                                     <SeekBar
                                         android:id="@+id/activity_main_skBr_tip_percentage_id"
                                         style="@style/SeekBar"
-                                        android:layout_marginLeft="12dp"
+                                        android:layout_marginStart="12dp"
                                         android:layout_toEndOf="@id/activity_main_imgVw_tip_percentage_id"/>
 
                                     <TextView
@@ -323,8 +316,7 @@
                                         android:layout_alignParentTop="true"
                                         android:layout_toEndOf="@+id/activity_main_skBr_tip_percentage_id"
                                         style="@style/ValueText"
-                                        tools:text="5"
-                                        android:text="5"/>
+                                        tools:text="5"/>
                                 </RelativeLayout>
                             </LinearLayout>
 
@@ -359,8 +351,7 @@
                                         android:layout_alignParentTop="true"
                                         android:layout_toEndOf="@+id/activity_main_skBr_people_count_id"
                                         style="@style/ValueText"
-                                        tools:text="5"
-                                        android:text="5"/>
+                                        tools:text="5"/>
                                 </RelativeLayout>
 
                             </LinearLayout>

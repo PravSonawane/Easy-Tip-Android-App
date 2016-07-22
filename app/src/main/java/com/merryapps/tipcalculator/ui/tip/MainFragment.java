@@ -22,13 +22,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.merryapps.tipcalculator.R;
@@ -42,6 +46,7 @@ import com.merryapps.tipcalculator.ui.framework.AbstractFragment;
 public class MainFragment extends AbstractFragment {
 
     private static final String TAG = "MainFragment";
+    private static final int MAX_SEEKBAR_VALUE = 20;
 
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
@@ -51,6 +56,8 @@ public class MainFragment extends AbstractFragment {
     private TextView eachPersonsShareTxtVw;
     private TextView peopleCountTxtVw;
     private TextView totalTxtVw;
+    private TextView percentageSettingsValueTxtVw;
+    private TextView peopleCountSettingsValueTxtVw;
 
     private FloatingActionButton settingsFab;
     private RelativeLayout fragmentParent;
@@ -58,10 +65,19 @@ public class MainFragment extends AbstractFragment {
     private LinearLayout settingsLnrLyt;
     private Button btnDone;
     private Button btnCancel;
+    private SeekBar percentageSeekbar;
+    private SeekBar peopleCountSeekbar;
+    private Switch roundUpSwitch;
 
 
     private int finalYCoordinate;
     private int finalXCoordinate;
+    private int minPercentageValue;
+    private int maxPercentageValue;
+    private int minPeopleCountValue;
+    private int maxPeopleCountValue;
+    private int percentageSeekbarStep;
+    private int peopleCountSeekbarStep;
     private Animation settingsFabEnterAnimation;
     private QuoteManager quoteManager;
     private DisplayMetrics displayMetrics;
@@ -76,13 +92,13 @@ public class MainFragment extends AbstractFragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        initializeInstanceVariables();
         initViews(view);
         setupAnimations();
         setupListeners(view);
-
         initDb();
         setQuote();
-        initializeInstanceVariables();
+
         startAnimations();
         return view;
     }
@@ -93,13 +109,114 @@ public class MainFragment extends AbstractFragment {
         finalYCoordinate = (int) (displayMetrics.heightPixels * 0.57);
         finalXCoordinate = displayMetrics.widthPixels / 2;
         tipUiHandler = new TipUiHandler();
+
+        minPercentageValue = 5;
+        maxPercentageValue = 25;
+        minPeopleCountValue = 1;
+        maxPeopleCountValue = 20;
+        percentageSeekbarStep = 1;
+        peopleCountSeekbarStep = 1;
+
     }
 
     private void setupListeners(View view) {
         settingsFab.setOnClickListener(newSettingsFabOnClickListener(view));
-
         billAmountEdtTxt.setFilters(new InputFilter[] { this.createFilter() });
         billAmountEdtTxt.addTextChangedListener(newBillAmountTextWatcher());
+        percentageSeekbar.setOnSeekBarChangeListener(newPercentageSeekbarChangeListener());
+        peopleCountSeekbar.setOnSeekBarChangeListener(newPeopleCountSeekbarChangeListener());
+        roundUpSwitch.setOnCheckedChangeListener(newRoundUpSwitchListener());
+    }
+
+    private CompoundButton.OnCheckedChangeListener newRoundUpSwitchListener() {
+        Log.d(TAG, "newRoundUpSwitchListener() called");
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isOn) {
+                    Log.d(TAG, "onCheckedChanged() called with: " + "compoundButton = [" + compoundButton + "], isOn = [" + isOn + "]");
+                  if(isOn) {
+                      tipUiHandler.setRoundMode(RoundMode.ROUNDED);
+                      tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                      tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                      totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                      peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                      eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                  } else {
+                      tipUiHandler.setRoundMode(RoundMode.NOT_ROUNDED);
+                      tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                      tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                      totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                      peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                      eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                  }
+            }
+        };
+    }
+
+    private SeekBar.OnSeekBarChangeListener newPeopleCountSeekbarChangeListener() {
+        Log.d(TAG, "newPeopleCountSeekbarChangeListener() called");
+        return new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                Log.d(TAG, "onProgressChanged() called with: " + "seekBar = [" + seekBar + "], i = [" + i + "], b = [" + b + "]");
+                int change = minPeopleCountValue + (i * peopleCountSeekbarStep);
+                peopleCountSettingsValueTxtVw.setText(Integer.toString(change));
+
+                tipUiHandler.setNumberOfPeople(Integer.toString(change));
+                tipUiHandler.setBillAmount(tipUiHandler.getBillAmount());
+                tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStartTrackingTouch() called with: " + "seekBar = [" + seekBar + "]");
+
+            }
+
+            @Override
+             public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStopTrackingTouch() called with: " + "seekBar = [" + seekBar + "]");
+
+            }
+        };
+    }
+
+    private SeekBar.OnSeekBarChangeListener newPercentageSeekbarChangeListener() {
+        Log.d(TAG, "newPercentageSeekbarChangeListener() called");
+        return new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                Log.d(TAG, "onProgressChanged() called with: " + "seekBar = [" + seekBar + "], i = [" + i + "], b = [" + b + "]");
+                int change = minPercentageValue + (i * percentageSeekbarStep);
+                percentageSettingsValueTxtVw.setText(Integer.toString(change));
+                tipUiHandler.setTipPercentage(Integer.toString(change));
+                tipUiHandler.setBillAmount(tipUiHandler.getBillAmount());
+                tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStartTrackingTouch() called with: " + "seekBar = [" + seekBar + "]");
+
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG, "onStopTrackingTouch() called with: " + "seekBar = [" + seekBar + "]");
+
+            }
+        };
     }
 
     private TextWatcher newBillAmountTextWatcher() {
@@ -111,7 +228,34 @@ public class MainFragment extends AbstractFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                String billAmountString = s.toString();
+                if (billAmountString.equals("") ||
+                        billAmountString.equals("0") ||
+                        billAmountString.equals("0.")) {
+                    tipUiHandler.setBillAmount("0.00");
+                    tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                    tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                    totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                    peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                    eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                } else if (billAmountString.endsWith(".")) {
+                    tipUiHandler.setBillAmount(billAmountString + "00");
+                    tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                    tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                    totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                    peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                    eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                } else if(Double.parseDouble(billAmountString) > 0) {
+                    tipUiHandler.setBillAmount(billAmountString);
+                    tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
+                    tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
+                    totalTxtVw.setText(tipUiHandler.getTotalAmount());
+                    peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
+                    eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                }
             }
 
             @Override
@@ -131,8 +275,23 @@ public class MainFragment extends AbstractFragment {
                                        Spanned dest, int dstart, int dend) {
                 StringBuilder builder = new StringBuilder(dest);
                 builder.replace(dstart, dend, source.subSequence(start, end).toString());
+
+                /*
+                    1. Allow only one leading 0.
+                    2. Allow 'maxDigitsBeforeDecimalPoint' before decimal
+                    3. Allow 'maxDigitsAfterDecimalPoint' after decimal
+                 */
                 if (!builder.toString().matches(
-                        "(([1-9]{1})([0-9]{0,"+(maxDigitsBeforeDecimalPoint-1)+"})?)?(\\.[0-9]{0,"+maxDigitsAfterDecimalPoint+"})?"
+                        "(" +
+                                "([0]{1})?" +
+                        ")" +
+                        "(" +
+                                "([1-9]{1})([0-9]{0,"+(maxDigitsBeforeDecimalPoint-1)+"})?" +
+                        ")?" +
+
+                        "(" +
+                                "\\.[0-9]{0,"+maxDigitsAfterDecimalPoint+"}" +
+                        ")?"
 
                 )) {
                     if(source.length()==0)
@@ -168,6 +327,15 @@ public class MainFragment extends AbstractFragment {
         eachPersonsShareTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_share_id);
         peopleCountTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_people_count_id);
         totalTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_total_amount_id);
+        percentageSeekbar = (SeekBar) view.findViewById(R.id.activity_main_skBr_tip_percentage_id);
+        peopleCountSeekbar = (SeekBar) view.findViewById(R.id.activity_main_skBr_people_count_id);
+        percentageSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_percentage_settings_value_id);
+        peopleCountSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_people_count_settings_value_id);
+        roundUpSwitch = (Switch) view.findViewById(R.id.activity_main_swtch_round_up_id);
+
+        //setting up seekbars
+        percentageSeekbar.setMax(MAX_SEEKBAR_VALUE);
+        peopleCountSeekbar.setMax(MAX_SEEKBAR_VALUE);
     }
 
     @NonNull
@@ -339,7 +507,7 @@ public class MainFragment extends AbstractFragment {
             float initialRadius = (float) Math.hypot(viewRoot.getWidth(), viewRoot.getHeight());
 
             Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, initialRadius, 0);
-            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setInterpolator(new AccelerateDecelerateInterpolator());
             anim.setDuration(getResources().getInteger(R.integer.animateRevealHideDuration));
             return anim;
         } else {
