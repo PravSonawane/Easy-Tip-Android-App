@@ -16,4 +16,6 @@
     <color name="colorPrimaryColorSettings">#DEFFC107</color>
 
     <color name="colorTextTransparent_54percent">#806600</color>
+
+    <color name="colorOutOfSyncValues">#D32F2F</color>
 </resources>

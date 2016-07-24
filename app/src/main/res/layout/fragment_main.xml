@@ -215,14 +215,16 @@
                     android:layout_alignParentTop="true"
                     android:includeFontPadding="false"
                     android:text="@string/hint_text_round_up"
-                    tools:text="Round Up" />
+                    tools:text="Round Up"
+                    android:visibility="gone"/>
 
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/activity_main_swtch_round_up_id"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -376,7 +378,8 @@
                                     android:text="CANCEL"
                                     android:layout_alignParentTop="true"
                                     style="@style/SettingsButtonText"
-                                    android:layout_toStartOf="@+id/fragment_dialog_settings_btn_done_id" />
+                                    android:layout_toStartOf="@+id/fragment_dialog_settings_btn_done_id"
+                                    android:visibility="gone"/>
                             </RelativeLayout>
                         </LinearLayout>
 
