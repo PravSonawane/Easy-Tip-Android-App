@@ -47,6 +47,10 @@ public class MainFragment extends AbstractFragment {
 
     private static final String TAG = "MainFragment";
     private static final int MAX_SEEKBAR_VALUE = 20;
+    private static final String EMPTY_STRING = "";
+    private static final String ZERO_DECIMAL_STRING = "0.00";
+    private static final String ONE_STRING = "1";
+    private static final String DEFAULT_PERCENTAGE_DECIMAL_STRING = "15.00";
 
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
@@ -143,6 +147,13 @@ public class MainFragment extends AbstractFragment {
                       totalTxtVw.setText(tipUiHandler.getTotalAmount());
                       peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                       eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                      if(((int)Double.parseDouble(tipUiHandler.getTipPercentage())) !=
+                              Integer.valueOf(percentageSettingsValueTxtVw.getText().toString())) {
+                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorOutOfSyncValues));
+                      } else {
+                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorTextTransparent_54percent));
+                      }
                   } else {
                       tipUiHandler.setRoundMode(RoundMode.NOT_ROUNDED);
                       tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
@@ -150,6 +161,13 @@ public class MainFragment extends AbstractFragment {
                       totalTxtVw.setText(tipUiHandler.getTotalAmount());
                       peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                       eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
+
+                      if(((int)Double.parseDouble(tipUiHandler.getTipPercentage())) !=
+                              Integer.valueOf(percentageSettingsValueTxtVw.getText().toString())) {
+                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorOutOfSyncValues));
+                      } else {
+                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorTextTransparent_54percent));
+                      }
                   }
             }
         };
@@ -351,7 +369,25 @@ public class MainFragment extends AbstractFragment {
 
         //setting up seekbars
         percentageSeekbar.setMax(MAX_SEEKBAR_VALUE);
-        peopleCountSeekbar.setMax(MAX_SEEKBAR_VALUE);
+        peopleCountSeekbar.setMax(MAX_SEEKBAR_VALUE - minPeopleCountValue);
+
+        //setup amounts, tips and shares
+        billAmountEdtTxt.setText(EMPTY_STRING);
+        tipAmountTxtVw.setText(ZERO_DECIMAL_STRING);
+        tipPercentageTxtVw.setText(DEFAULT_PERCENTAGE_DECIMAL_STRING);
+        eachPersonsShareTxtVw.setText(ZERO_DECIMAL_STRING);
+        peopleCountTxtVw.setText(ONE_STRING);
+        totalTxtVw.setText(ZERO_DECIMAL_STRING);
+
+        int tipPercentage = (int) Double.parseDouble(tipUiHandler.getTipPercentage());
+        percentageSeekbar.setProgress(tipPercentage*percentageSeekbarStep - minPercentageValue);
+        int percentageSeekbarValue = tipPercentage * percentageSeekbarStep;
+        percentageSettingsValueTxtVw.setText(Integer.toString(percentageSeekbarValue));
+
+        int peopleCount = (int) Double.parseDouble(tipUiHandler.getNumberOfPeople());
+        peopleCountSeekbar.setProgress(peopleCount*peopleCountSeekbarStep - minPeopleCountValue);
+        int peopleCountSeekbarValue = peopleCount * percentageSeekbarStep;
+        peopleCountSettingsValueTxtVw.setText(Integer.toString(peopleCountSeekbarValue));
     }
 
     @NonNull
@@ -408,6 +444,11 @@ public class MainFragment extends AbstractFragment {
                     newParams.topMargin = finalYCoordinate;
                     newParams.leftMargin = finalXCoordinate/2;
                     settingsFab.setLayoutParams(newParams);
+                } else {
+                    quoteTxtVw.setVisibility(View.GONE);
+                    quoteAuthorTextVw.setVisibility(View.GONE);
+                    settingsFab.setVisibility(View.GONE);
+                    settingsLnrLyt.setVisibility(View.VISIBLE);
                 }
 
             }
