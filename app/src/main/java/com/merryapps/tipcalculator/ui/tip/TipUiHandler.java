@@ -1,5 +1,6 @@
 package com.merryapps.tipcalculator.ui.tip;
 
+import com.merryapps.tipcalculator.model.Rounding;
 import com.merryapps.tipcalculator.model.TipCalculator;
 
 import java.math.BigDecimal;
@@ -22,10 +23,9 @@ public class TipUiHandler {
     private String numberOfPeople;
     private String eachPersonsShare;
 
-    private RoundMode roundMode;
+    private Rounding rounding;
 
     private TipCalculator currentTipCalculator;
-    private TipCalculator preRoundingTipCalculator;
 
     public TipUiHandler() {
         this.billAmount = EMPTY_STRING;
@@ -35,7 +35,7 @@ public class TipUiHandler {
         this.eachPersonsShare = DECIMAL_0_STRING;
         this.totalAmount = DECIMAL_0_STRING;
 
-        this.roundMode = RoundMode.NOT_ROUNDED;
+        this.rounding = Rounding.OFF;
         this.currentTipCalculator = new TipCalculator(
                 new BigDecimal(DECIMAL_0_STRING),
                 new BigDecimal(this.tipPercentage),
@@ -47,37 +47,24 @@ public class TipUiHandler {
         return this.currentTipCalculator.getBillAmount().toString();
     }
 
-    public RoundMode getRoundMode() {
-        return roundMode;
+    public Rounding getRounding() {
+        return rounding;
     }
 
-    void setRoundMode(RoundMode roundMode) {
-        switch (roundMode) {
-            case ROUNDED:
-                //take a backup before rounding
-                this.preRoundingTipCalculator = new TipCalculator(this.currentTipCalculator.getBillAmount(),
-                        this.currentTipCalculator.getTipPercentage(),
-                        this.currentTipCalculator.getNumberOfPeople());
-                this.currentTipCalculator.roundTotalAmount();
+    void setRounding(Rounding rounding) {
+        switch (rounding) {
+            case ON:
+               this.currentTipCalculator.setTotalAmountRounding(Rounding.ON);
                 break;
-            case NOT_ROUNDED:
-                /*if (this.preRoundingTipCalculator == null) {
-                    throw new IllegalStateException("No pre rounding data found! " +
-                            "This probably occurred because you were trying to remove rounding when its already not rounded!");
-                }*/
-                this.currentTipCalculator = new TipCalculator(this.preRoundingTipCalculator.getBillAmount(),
-                        this.preRoundingTipCalculator.getTipPercentage(),
-                        this.preRoundingTipCalculator.getNumberOfPeople());
-                //this.preRoundingTipCalculator = null;
+            case OFF:
+                this.currentTipCalculator.setTotalAmountRounding(Rounding.OFF);
                 break;
         }
-        this.roundMode = roundMode;
+        this.rounding = rounding;
     }
 
     public void setBillAmount(String billAmount) {
         this.billAmount = billAmount;
-        this.roundMode = RoundMode.NOT_ROUNDED;
-        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editBillAmount(new BigDecimal(this.billAmount));
     }
 
@@ -87,8 +74,6 @@ public class TipUiHandler {
 
     public void setTipPercentage(String tipPercentage) {
         this.tipPercentage = tipPercentage;
-        this.roundMode = RoundMode.NOT_ROUNDED;
-        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editTipPercentage(new BigDecimal(this.tipPercentage));
     }
 
@@ -106,8 +91,6 @@ public class TipUiHandler {
 
     public void setNumberOfPeople(String numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
-        this.roundMode = RoundMode.NOT_ROUNDED;
-        this.preRoundingTipCalculator = null;
         this.currentTipCalculator.editNumberOfPeople(Integer.parseInt(numberOfPeople));
     }
 

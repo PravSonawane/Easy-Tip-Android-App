@@ -36,6 +36,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.merryapps.tipcalculator.R;
+import com.merryapps.tipcalculator.model.Rounding;
 import com.merryapps.tipcalculator.model.core.Quote;
 import com.merryapps.tipcalculator.model.core.QuoteManager;
 import com.merryapps.tipcalculator.ui.framework.AbstractFragment;
@@ -141,33 +142,20 @@ public class MainFragment extends AbstractFragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isOn) {
                     Log.d(TAG, "onCheckedChanged() called with: " + "compoundButton = [" + compoundButton + "], isOn = [" + isOn + "]");
                   if(isOn) {
-                      tipUiHandler.setRoundMode(RoundMode.ROUNDED);
+                      tipUiHandler.setRounding(Rounding.ON);
                       tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
                       tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
                       totalTxtVw.setText(tipUiHandler.getTotalAmount());
                       peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                       eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
 
-                      if(((int)Double.parseDouble(tipUiHandler.getTipPercentage())) !=
-                              Integer.valueOf(percentageSettingsValueTxtVw.getText().toString())) {
-                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorOutOfSyncValues));
-                      } else {
-                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorTextTransparent_54percent));
-                      }
                   } else {
-                      tipUiHandler.setRoundMode(RoundMode.NOT_ROUNDED);
+                      tipUiHandler.setRounding(Rounding.OFF);
                       tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
                       tipAmountTxtVw.setText(tipUiHandler.getTipAmount());
                       totalTxtVw.setText(tipUiHandler.getTotalAmount());
                       peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                       eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
-
-                      if(((int)Double.parseDouble(tipUiHandler.getTipPercentage())) !=
-                              Integer.valueOf(percentageSettingsValueTxtVw.getText().toString())) {
-                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorOutOfSyncValues));
-                      } else {
-                          percentageSettingsValueTxtVw.setTextColor(getResources().getColor(R.color.colorTextTransparent_54percent));
-                      }
                   }
             }
         };
@@ -191,8 +179,8 @@ public class MainFragment extends AbstractFragment {
                 eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
 
                 roundUpSwitch.setOnCheckedChangeListener(null);
-                roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
                 roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
+                roundUpSwitch.setChecked(tipUiHandler.getRounding().equals(Rounding.ON));
             }
 
             @Override
@@ -226,7 +214,7 @@ public class MainFragment extends AbstractFragment {
                 eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
 
                 roundUpSwitch.setOnCheckedChangeListener(null);
-                roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                roundUpSwitch.setChecked(tipUiHandler.getRounding().equals(Rounding.ON));
                 roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
             }
 
@@ -266,7 +254,7 @@ public class MainFragment extends AbstractFragment {
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
 
                     roundUpSwitch.setOnCheckedChangeListener(null);
-                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setChecked(tipUiHandler.getRounding().equals(Rounding.ON));
                     roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 } else if (billAmountString.endsWith(".")) {
                     tipUiHandler.setBillAmount(billAmountString + "00");
@@ -277,7 +265,7 @@ public class MainFragment extends AbstractFragment {
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
 
                     roundUpSwitch.setOnCheckedChangeListener(null);
-                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setChecked(tipUiHandler.getRounding().equals(Rounding.ON));
                     roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 } else if(Double.parseDouble(billAmountString) > 0) {
                     tipUiHandler.setBillAmount(billAmountString);
@@ -287,7 +275,7 @@ public class MainFragment extends AbstractFragment {
                     peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
                     eachPersonsShareTxtVw.setText(tipUiHandler.getEachPersonsShare());
                     roundUpSwitch.setOnCheckedChangeListener(null);
-                    roundUpSwitch.setChecked(tipUiHandler.getRoundMode().isRounded());
+                    roundUpSwitch.setChecked(tipUiHandler.getRounding().equals(Rounding.ON));
                     roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
                 }
             }

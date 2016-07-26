@@ -21,6 +21,8 @@ public class TipCalculator {
     private int numberOfPeople;
     private BigDecimal eachPersonsShare;
 
+    private Rounding rounding;
+
     /**
      * Creates a new TipCalculator with the given details.
      * @param billAmount the bill amount. Must be non-negative and not null.
@@ -40,6 +42,7 @@ public class TipCalculator {
         this.billAmount = billAmount.setScale(SCALE, ROUNDING_MODE_HALF_UP);
         this.tipPercentage = tipPercentage.setScale(SCALE, ROUNDING_MODE_HALF_UP);
         this.numberOfPeople = numberOfPeople;
+        this.rounding = Rounding.OFF;
 
         if(this.billAmount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("billAmount cannot be < 0");
@@ -48,6 +51,8 @@ public class TipCalculator {
         this.tipAmount = calculateTipAmountFromTipPercentage();
         this.totalAmount = calculateTotalAmount();
         this.eachPersonsShare = calculateEachPersonsShare();
+
+
     }
 
     /**
@@ -69,6 +74,7 @@ public class TipCalculator {
         this. billAmount = billAmount.setScale(SCALE, ROUNDING_MODE_HALF_UP);
         this.tipAmount = tipAmount.setScale(SCALE, ROUNDING_MODE_HALF_UP);
         this.numberOfPeople = numberOfPeople;
+        this.rounding = Rounding.OFF;
 
         if(this.billAmount.compareTo(new BigDecimal("0")) < 0) {
             throw new IllegalArgumentException("billAmount cannot be < 0");
@@ -112,6 +118,10 @@ public class TipCalculator {
         return eachPersonsShare;
     }
 
+    public Rounding getRounding() {
+        return rounding;
+    }
+
     private BigDecimal calculateTipAmountFromTipPercentage() {
         double result = this.billAmount.doubleValue() * this.tipPercentage.doubleValue() / 100;
         return new BigDecimal(result).setScale(SCALE, ROUNDING_MODE_HALF_UP);
@@ -124,7 +134,18 @@ public class TipCalculator {
 
     private BigDecimal calculateTotalAmount() {
         double result = this.billAmount.doubleValue() + this.tipAmount.doubleValue();
-        return new BigDecimal(result).setScale(SCALE, ROUNDING_MODE_HALF_UP);
+        BigDecimal totalAmount = new BigDecimal(result).setScale(SCALE, ROUNDING_MODE_HALF_UP);
+
+        switch (rounding) {
+            case ON: {
+                return roundUp(totalAmount);
+            }
+            case OFF: {
+                return totalAmount;
+            }
+        }
+
+        throw new AssertionError("Rounding not defined");
     }
 
     private BigDecimal calculateEachPersonsShare() {
@@ -161,7 +182,7 @@ public class TipCalculator {
 
         this.numberOfPeople = newNumberOfPeople;
         this.tipAmount = calculateTipAmountFromTipPercentage();
-        this.totalAmount = calculateTotalAmount();
+        //this.totalAmount = calculateTotalAmount();
         this.eachPersonsShare = calculateEachPersonsShare();
     }
 
@@ -172,22 +193,24 @@ public class TipCalculator {
      * the current tip amount. Else it is rounded to the next highest integer.
      * Dependent values are recalculated.
      */
-    public void roundTotalAmount() {
-        BigDecimal oldTotalAmount = this.totalAmount;
+    public void setTotalAmountRounding(Rounding rounding) {
+
+        this.rounding = rounding;
+        this.totalAmount = calculateTotalAmount();
+        this.eachPersonsShare = calculateEachPersonsShare();
+    }
+
+    private BigDecimal roundUp(BigDecimal amountToBeRounded) {
+
         BigInteger integralPart = this.totalAmount.toBigInteger();
 
-        if(this.totalAmount.compareTo(new BigDecimal(integralPart.intValue() + 0.5)) >= 0) {
-            this.totalAmount = new BigDecimal(integralPart.intValue() + 1).setScale(SCALE, ROUNDING_MODE_HALF_UP);
+        if(amountToBeRounded.compareTo(new BigDecimal(integralPart.intValue() + 0.5)) >= 0) {
+            amountToBeRounded = new BigDecimal(integralPart.intValue() + 1).setScale(SCALE, ROUNDING_MODE_HALF_UP);
         } else {
-            this.totalAmount = new BigDecimal(integralPart).setScale(SCALE, ROUNDING_MODE_HALF_UP);
+            amountToBeRounded = new BigDecimal(integralPart).setScale(SCALE, ROUNDING_MODE_HALF_UP);
         }
 
-        if (!oldTotalAmount.equals(this.totalAmount)) {
-            this.tipAmount = this.tipAmount.add(this.totalAmount.subtract(oldTotalAmount));
-            this.tipPercentage = calculateTipPercentageFromTipAmount();
-            this.eachPersonsShare = calculateEachPersonsShare();
-        }
-
+        return amountToBeRounded;
     }
 
     public void editBillAmount(BigDecimal newBillAmount) {
