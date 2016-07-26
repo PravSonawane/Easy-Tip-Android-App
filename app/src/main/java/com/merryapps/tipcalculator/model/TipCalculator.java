@@ -202,7 +202,7 @@ public class TipCalculator {
 
     private BigDecimal roundUp(BigDecimal amountToBeRounded) {
 
-        BigInteger integralPart = this.totalAmount.toBigInteger();
+        BigInteger integralPart = amountToBeRounded.toBigInteger();
 
         if(amountToBeRounded.compareTo(new BigDecimal(integralPart.intValue() + 0.5)) >= 0) {
             amountToBeRounded = new BigDecimal(integralPart.intValue() + 1).setScale(SCALE, ROUNDING_MODE_HALF_UP);

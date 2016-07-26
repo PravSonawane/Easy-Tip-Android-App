@@ -69,7 +69,7 @@ public class TipUiHandler {
     }
 
     public String getTipPercentage() {
-        return this.currentTipCalculator.getTipPercentage().toString();
+        return this.currentTipCalculator.getTipPercentage().toBigInteger().toString();
     }
 
     public void setTipPercentage(String tipPercentage) {

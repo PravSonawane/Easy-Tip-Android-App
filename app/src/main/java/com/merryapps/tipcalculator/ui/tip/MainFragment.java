@@ -51,7 +51,7 @@ public class MainFragment extends AbstractFragment {
     private static final String EMPTY_STRING = "";
     private static final String ZERO_DECIMAL_STRING = "0.00";
     private static final String ONE_STRING = "1";
-    private static final String DEFAULT_PERCENTAGE_DECIMAL_STRING = "15.00";
+    private static final String DEFAULT_PERCENTAGE_DECIMAL_STRING = "15";
 
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
@@ -367,7 +367,7 @@ public class MainFragment extends AbstractFragment {
         peopleCountTxtVw.setText(ONE_STRING);
         totalTxtVw.setText(ZERO_DECIMAL_STRING);
 
-        int tipPercentage = (int) Double.parseDouble(tipUiHandler.getTipPercentage());
+        int tipPercentage = Integer.parseInt(tipUiHandler.getTipPercentage());
         percentageSeekbar.setProgress(tipPercentage*percentageSeekbarStep - minPercentageValue);
         int percentageSeekbarValue = tipPercentage * percentageSeekbarStep;
         percentageSettingsValueTxtVw.setText(Integer.toString(percentageSeekbarValue));
