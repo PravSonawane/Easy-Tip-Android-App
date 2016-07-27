@@ -481,6 +481,16 @@ public class MainFragment extends AbstractFragment {
                         animator.addListener(newOnRevealHideListener());
                         animator.start();
                     }
+                } else {
+                    RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    newParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    newParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+                    settingsFab.setLayoutParams(newParams);
+                    settingsFab.setVisibility(View.VISIBLE);
+                    settingsLnrLyt.setVisibility(View.GONE);
+                    quoteTxtVw.setVisibility(View.VISIBLE);
+                    quoteAuthorTextVw.setVisibility(View.VISIBLE);
+                    quoteRelLyt.setBackgroundResource(R.drawable.background_rounded_corners_12percent_black);
                 }
             }
         };
