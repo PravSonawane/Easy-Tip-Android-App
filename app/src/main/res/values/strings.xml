@@ -9,4 +9,8 @@
     <string name="hint_text_total_amount">Total Amount</string>
     <string name="hint_text_round_up">Round Up</string>
 
+    <!-- menu_main.xml -->
+    <string name="menu_main_title_reset">Reset</string>
+    <string name="menu_main_title_share">Share</string>
+
 </resources>

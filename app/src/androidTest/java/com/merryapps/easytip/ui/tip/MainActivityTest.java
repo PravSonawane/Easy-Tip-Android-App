@@ -401,6 +401,10 @@ public class MainActivityTest {
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
 
         onView(withId(R.id.activity_main_skBr_tip_percentage_id))
                 .perform(setPercentageProgress(20));
@@ -417,6 +421,10 @@ public class MainActivityTest {
                 .check(matches(withText("12.00")));
         onView(withId(R.id.activity_main_txtVw_total_amount_id))
                 .check(matches(withText("12.00")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("20")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
     }
 
     @Test
@@ -460,6 +468,10 @@ public class MainActivityTest {
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
 
         onView(withId(R.id.activity_main_skBr_tip_percentage_id))
                 .perform(setPercentageProgress(10));
@@ -476,6 +488,10 @@ public class MainActivityTest {
                 .check(matches(withText("11.00")));
         onView(withId(R.id.activity_main_txtVw_total_amount_id))
                 .check(matches(withText("11.00")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("10")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
     }
 
     @Test
@@ -519,6 +535,10 @@ public class MainActivityTest {
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
 
         onView(withId(R.id.activity_main_skBr_people_count_id))
                 .perform(setPeopleProgress(2));
@@ -535,6 +555,10 @@ public class MainActivityTest {
                 .check(matches(withText("5.75")));
         onView(withId(R.id.activity_main_txtVw_total_amount_id))
                 .check(matches(withText("11.50")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("02")));
     }
 
     @Test
@@ -578,6 +602,10 @@ public class MainActivityTest {
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
 
         onView(withId(R.id.activity_main_skBr_people_count_id))
                 .perform(setPeopleProgress(2));
@@ -594,6 +622,10 @@ public class MainActivityTest {
                 .check(matches(withText("5.75")));
         onView(withId(R.id.activity_main_txtVw_total_amount_id))
                 .check(matches(withText("11.50")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("02")));
 
         onView(withId(R.id.activity_main_skBr_people_count_id))
                 .perform(setPeopleProgress(1));
@@ -616,6 +648,49 @@ public class MainActivityTest {
                 .check(matches(not(isDisplayed())));
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
+    }
+
+    @Test
+    public void testUiWhenResetButtonIsClicked() {
+
+        onView(withId(R.id.activity_main_edtTxt_bill_amount_id))
+                .perform(typeText("10"));
+        onView(withId(R.id.activity_main_edtTxt_bill_amount_id))
+                .check(matches(withText("10")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_tip_amount_id))
+                .check(matches(withText("1.50")));
+        onView(withId(R.id.activity_main_txtVw_people_count_id))
+                .check(matches(withText("1")));
+        onView(withId(R.id.activity_main_txtVw_share_id))
+                .check(matches(withText("11.50")));
+        onView(withId(R.id.activity_main_txtVw_total_amount_id))
+                .check(matches(withText("11.50")));
+
+        onView(withId(R.id.action_reset))
+                .perform(click());
+
+        onView(withId(R.id.activity_main_edtTxt_bill_amount_id))
+                .check(matches(withText("")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_tip_amount_id))
+                .check(matches(withText("0.00")));
+        onView(withId(R.id.activity_main_txtVw_people_count_id))
+                .check(matches(withText("1")));
+        onView(withId(R.id.activity_main_txtVw_share_id))
+                .check(matches(withText("0.00")));
+        onView(withId(R.id.activity_main_txtVw_total_amount_id))
+                .check(matches(withText("0.00")));
+        onView(withId(R.id.activity_main_txtVw_tip_percentage_settings_value_id))
+                .check(matches(withText("15")));
+        onView(withId(R.id.activity_main_txtVw_people_count_settings_value_id))
+                .check(matches(withText("01")));
     }
 
     private ViewAction setPercentageProgress(final int progress) {
