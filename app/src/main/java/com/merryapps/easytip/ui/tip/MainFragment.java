@@ -36,9 +36,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.merryapps.easytip.R;
-import com.merryapps.easytip.model.tip.Rounding;
 import com.merryapps.easytip.model.quote.Quote;
 import com.merryapps.easytip.model.quote.QuoteManager;
+import com.merryapps.easytip.model.tip.Rounding;
 import com.merryapps.easytip.ui.framework.AbstractFragment;
 
 /**
@@ -52,6 +52,12 @@ public class MainFragment extends AbstractFragment {
     private static final String ZERO_DECIMAL_STRING = "0.00";
     private static final String ONE_STRING = "1";
     private static final String DEFAULT_PERCENTAGE_DECIMAL_STRING = "15";
+    private static final String PROPERTY_MIN_PERCENTAGE_VALUE = "fragment.main.minPercentageValue";
+    private static final String PROPERTY_MAX_PERCENTAGE_VALUE = "fragment.main.maxPercentageValue";
+    private static final String PROPERTY_PERCENTAGE_STEP_SIZE = "fragment.main.percentageStepSize";
+    private static final String PROPERTY_MIN_PEOPLE_COUNT_VALUE = "fragment.main.minPeopleCountValue";
+    private static final String PROPERTY_MAX_PEOPLE_COUNT_VALUE = "fragment.main.maxPeopleCountValue";
+    private static final String PROPERTY_PEOPLE_COUNT_STEP_SIZE = "fragment.main.peopleCountStepSize";
 
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
@@ -116,13 +122,18 @@ public class MainFragment extends AbstractFragment {
         finalXCoordinate = displayMetrics.widthPixels / 2;
         tipUiHandler = new TipUiHandler();
 
-        minPercentageValue = 5;
-        maxPercentageValue = 25;
-        minPeopleCountValue = 1;
-        maxPeopleCountValue = 20;
-        percentageSeekbarStep = 1;
-        peopleCountSeekbarStep = 1;
 
+        minPercentageValue = Integer.parseInt(getProperty(PROPERTY_MIN_PERCENTAGE_VALUE));
+        maxPercentageValue = Integer.parseInt(getProperty(PROPERTY_MAX_PERCENTAGE_VALUE));
+        minPeopleCountValue = Integer.parseInt(getProperty(PROPERTY_PERCENTAGE_STEP_SIZE));
+        maxPeopleCountValue = Integer.parseInt(getProperty(PROPERTY_MIN_PEOPLE_COUNT_VALUE));
+        percentageSeekbarStep = Integer.parseInt(getProperty(PROPERTY_MAX_PEOPLE_COUNT_VALUE));
+        peopleCountSeekbarStep = Integer.parseInt(getProperty(PROPERTY_PEOPLE_COUNT_STEP_SIZE));
+
+    }
+
+    private String getProperty(String propertyName) {
+        return getProperty(propertyName,"project");
     }
 
     private void setupListeners(View view) {
@@ -342,7 +353,7 @@ public class MainFragment extends AbstractFragment {
         quoteAuthorTextVw = (TextView) view.findViewById(R.id.activity_main_txtVw_quote_author_id);
         quoteRelLyt = (RelativeLayout) view.findViewById(R.id.activity_main_relLyt_quote_id);
         settingsLnrLyt = (LinearLayout) view.findViewById(R.id.activity_main_lnrLyt_settings_id);
-        settingsFab = (FloatingActionButton) view.findViewById(R.id.fragment_main_settings_fab);
+        settingsFab = (FloatingActionButton) view.findViewById(R.id.fragment_main_settings_fab_id);
         billAmountEdtTxt = (EditText) view.findViewById(R.id.activity_main_edtTxt_bill_amount_id);
         tipAmountTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_amount_id);
         tipPercentageTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_percentage_id);
