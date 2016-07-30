@@ -3,6 +3,7 @@ package com.merryapps.easytip.ui.tip;
 
 import android.animation.Animator;
 import android.animation.LayoutTransition;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
@@ -131,10 +132,64 @@ public class MainFragment extends AbstractFragment {
                 return true;
             }
             case R.id.action_share: {
+                share();
                 return true;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void share() {
+        Log.d(TAG, "share() called");
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Easy Tip: Tip and Split Calculation");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessageGenerator());
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "SEND TO"));
+    }
+
+    private String shareMessageGenerator() {
+        String newLine = "\n";
+        String colon = ":";
+        int numberOfSpaces = 0;
+
+        String separator = "------------------------------------------------";
+        return  "Easy Tip: Tip and Split Calculation" +
+                newLine +
+                separator +
+                newLine +
+                "Bill Amount" +
+                colon +
+                tipUiHandler.getBillAmount() +
+                newLine +
+                "Tip Percentage" +
+                colon +
+                tipUiHandler.getTipPercentage() +
+                newLine +
+                "Tip Amount" +
+                colon +
+                tipUiHandler.getTipAmount() +
+                newLine +
+                "People" +
+                colon +
+                tipUiHandler.getNumberOfPeople() +
+                newLine +
+                "Each Person's Share" +
+                colon +
+                tipUiHandler.getEachPersonsShare() +
+                newLine +
+                "Total Amount" +
+                colon +
+                tipUiHandler.getTotalAmount() +
+                (tipUiHandler.getRounding().equals(Rounding.ON) ? " (rounded off)" : "") +
+                newLine +
+                separator +
+                "Download" +
+                colon +
+                newLine +
+                getProperty("playStore.downloadLink");
+
     }
 
     /**
@@ -142,7 +197,7 @@ public class MainFragment extends AbstractFragment {
      */
     private void reset() {
         Log.d(TAG, "reset() called");
-        //This will reset everything
+        //This will reset all values
         tipUiHandler.reset();
     }
 
