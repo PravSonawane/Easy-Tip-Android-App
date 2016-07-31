@@ -58,6 +58,21 @@ public class TipUiHandler {
 
     }
 
+    public TipUiHandler(String tipPercentage, String numberOfPeople) {
+        Log.d(TAG, "TipUiHandler() called");
+
+        this.billAmount = EMPTY_STRING;
+        this.tipPercentage = tipPercentage;
+        this.numberOfPeople = numberOfPeople;
+
+        this.rounding = Rounding.OFF;
+        this.tipCalculator = new TipCalculator(
+                new BigDecimal(DECIMAL_0_STRING),
+                new BigDecimal(this.tipPercentage),
+                Integer.parseInt(this.numberOfPeople));
+
+    }
+
     public String getBillAmount() {
         return this.tipCalculator.getBillAmount().toString();
     }

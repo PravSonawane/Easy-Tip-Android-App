@@ -1,10 +1,14 @@
 package com.merryapps.easytip.model.quote;
 
+
 import android.util.Log;
 
 import com.merryapps.easytip.model.db.QuoteEntity;
 import com.merryapps.easytip.model.db.QuoteEntityDao;
-import com.merryapps.easytip.model.tip.EntityState;
+import com.merryapps.easytip.model.db.UserSettingEntity;
+import com.merryapps.easytip.model.db.UserSettingEntityDao;
+import com.merryapps.easytip.model.framework.EntityState;
+import com.merryapps.easytip.model.tip.UserSettingType;
 
 /**
  * Created by mephisto on 1/30/16.
@@ -14,14 +18,34 @@ public class SeedDataManager {
     private static final String TAG = "SeedDataManager";
 
     private QuoteEntityDao quoteEntityDao;
-
-    public SeedDataManager(QuoteEntityDao quoteEntityDao) {
+    private UserSettingEntityDao userSettingEntityDao;
+    public SeedDataManager(QuoteEntityDao quoteEntityDao, UserSettingEntityDao userSettingEntityDao) {
         this.quoteEntityDao = quoteEntityDao;
+        this.userSettingEntityDao = userSettingEntityDao;
     }
 
     public void initializeDb() {
-        
-        //do not insert if database already has quotes
+        initQuotes();
+
+        initSettings();
+
+    }
+
+    private void initSettings() {
+        //do not insert if database already has rows
+        if(userSettingEntityDao.count() > 0) {
+            Log.d(TAG, "initializeDb: not inserting as database already has UserSettings.");
+            return;
+        }
+
+        Log.d(TAG, "initializeDb: Inserting UserSettings objects - Initializing");
+        userSettingEntityDao.insertOrReplace(new UserSettingEntity(UserSettingType.TIP_PERCENTAGE, "15"));
+        userSettingEntityDao.insertOrReplace(new UserSettingEntity(UserSettingType.PEOPLE_COUNT, "1"));
+        Log.d(TAG, "initializeDb: Inserting UserSettings objects - Done");
+    }
+
+    private void initQuotes() {
+        //do not insert if database already has rows
         if(quoteEntityDao.count() > 0) {
             Log.d(TAG, "initializeDb: not inserting as database already has quotes.");
             return;
@@ -244,14 +268,7 @@ public class SeedDataManager {
         quoteEntityDao.insertOrReplace(new QuoteEntity("Time is money.",
                 "Benjamin Franklin", EntityState.LOCAL));
 
-
-
-
-
-
         Log.d(TAG, "initializeDb: Inserting Quote objects - done");
-
-
-
+        return;
     }
 }

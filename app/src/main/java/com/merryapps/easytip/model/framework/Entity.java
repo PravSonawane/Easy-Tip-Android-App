@@ -1,6 +1,4 @@
-package com.merryapps.easytip.model.db;
-
-import com.merryapps.easytip.model.tip.EntityState;
+package com.merryapps.easytip.model.framework;
 
 /**
  * Created by mephisto on 2/28/16.

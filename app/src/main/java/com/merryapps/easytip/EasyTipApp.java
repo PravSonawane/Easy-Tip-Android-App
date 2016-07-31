@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.merryapps.easytip.model.db.DaoMaster;
-import com.merryapps.easytip.model.tip.ManagerFactory;
+import com.merryapps.easytip.model.db.EasyTipOpenHelper;
+import com.merryapps.easytip.model.framework.ManagerFactory;
 import com.merryapps.easytip.util.ConfigurationException;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class EasyTipApp extends Application {
 
 
         Log.d(TAG,"GreenDao initialization - started");
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, databaseName, null);
+        DaoMaster.DevOpenHelper helper = new EasyTipOpenHelper(this, databaseName, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         Log.d(TAG,"GreenDao initialization - completed");

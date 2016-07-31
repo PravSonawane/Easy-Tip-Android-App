@@ -1,6 +1,4 @@
-package com.merryapps.easytip.model.db;
-
-import com.merryapps.easytip.model.tip.EntityState;
+package com.merryapps.easytip.model.framework;
 
 import de.greenrobot.dao.converter.PropertyConverter;
 
@@ -11,11 +9,11 @@ public class EntityStateConverter implements PropertyConverter<EntityState, Stri
 
     @Override
     public EntityState convertToEntityProperty(String databaseValue) {
-        return EntityState.convertToEntityState(databaseValue);
+        return EntityState.convert(databaseValue);
     }
 
     @Override
     public String convertToDatabaseValue(EntityState entityProperty) {
-        return entityProperty.state();
+        return entityProperty.get();
     }
 }

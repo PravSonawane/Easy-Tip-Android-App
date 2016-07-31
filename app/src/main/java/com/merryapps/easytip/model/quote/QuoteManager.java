@@ -22,16 +22,16 @@ public class QuoteManager {
     }
 
     public Quote getRandomQuote() {
-        return getAllQuotes().get(new Random().nextInt(this.quotes.size()));
+        return getAll().get(new Random().nextInt(this.quotes.size()));
     }
 
-    public List<Quote> getAllQuotes() {
+    public List<Quote> getAll() {
         if(this.quotes.size() > 0) {
             return this.quotes;
         }
 
-        if(getQuoteCount() > 0) {
-            List<QuoteEntity> quoteEntities = this.getAllQuoteEntities();
+        if(getCount() > 0) {
+            List<QuoteEntity> quoteEntities = this.getAllEntities();
             if(quoteEntities != null && quoteEntities.size() > 0) {
                 this.quotes = new ArrayList<>(quoteEntities.size());
                 for(QuoteEntity e : quoteEntities) {
@@ -43,11 +43,14 @@ public class QuoteManager {
         return this.quotes;
     }
 
-    List<QuoteEntity> getAllQuoteEntities() {
+    List<QuoteEntity> getAllEntities() {
         return quoteEntityDao.loadAll();
     }
 
-    long getQuoteCount() {
+    long getCount() {
+        if(quotes.size() > 0) {
+            return quotes.size();
+        }
         return quoteEntityDao.count();
     }
 }

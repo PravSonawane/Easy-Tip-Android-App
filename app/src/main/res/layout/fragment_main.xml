@@ -283,7 +283,7 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:id="@+id/fragment_dialog_settings_lnrlyt_percentage_id"
+                                android:id="@+id/fragment_settings_lnrlyt_percentage_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -322,7 +322,7 @@
 
 
                             <LinearLayout
-                                android:id="@+id/fragment_dialog_settings_lnrlyt_people_id"
+                                android:id="@+id/fragment_settings_lnrlyt_people_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -357,27 +357,26 @@
                             </LinearLayout>
 
                             <RelativeLayout
-                                android:id="@+id/fragment_dialog_settings_relLyt_buttons_id"
+                                android:id="@+id/fragment_settings_relLyt_buttons_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <Button
-                                    android:id="@+id/fragment_dialog_settings_btn_done_id"
+                                    android:id="@+id/fragment_settings_btn_done_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_alignParentEnd="true"
                                     style="@style/SettingsButtonText"
-                                    android:text="DONE"/>
+                                    android:text="@string/fragment_main_btn_done_text"/>
 
                                 <Button
-                                    android:id="@+id/fragment_dialog_settings_btn_cancel_id"
+                                    android:id="@+id/fragment_settings_btn_save_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="CANCEL"
+                                    android:text="@string/fragment_main_btn_save_text"
                                     android:layout_alignParentTop="true"
                                     style="@style/SettingsButtonText"
-                                    android:layout_toStartOf="@+id/fragment_dialog_settings_btn_done_id"
-                                    android:visibility="gone"/>
+                                    android:layout_toStartOf="@+id/fragment_settings_btn_done_id"/>
                             </RelativeLayout>
                         </LinearLayout>
 

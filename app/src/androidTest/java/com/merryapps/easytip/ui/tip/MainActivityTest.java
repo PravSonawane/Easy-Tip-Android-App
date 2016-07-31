@@ -336,7 +336,7 @@ public class MainActivityTest {
         onView(withId(R.id.activity_main_lnrLyt_settings_id))
                 .check(matches(isDisplayed()));
 
-        onView(withId(R.id.fragment_dialog_settings_btn_done_id))
+        onView(withId(R.id.fragment_settings_btn_done_id))
                 .perform(click());
 
         onView(withId(R.id.activity_main_edtTxt_bill_amount_id))

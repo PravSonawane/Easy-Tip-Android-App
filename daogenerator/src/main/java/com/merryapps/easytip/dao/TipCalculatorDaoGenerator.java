@@ -9,23 +9,26 @@ import de.greenrobot.daogenerator.Schema;
  */
 public class TipCalculatorDaoGenerator {
 
-    //the package where the entity itself will be generated
-    private static final String ENTITY_PACKAGE_NAME = "com.merryapps.tipcalculator.model.db";
-    //the package where the dao will be generated
-    private static final String DAO_PACKAGE_NAME = "com.merryapps.tipcalculator.model.db";
-    //the package where the test classes will be generated
-    private static final String DAO_TEST_PACKAGE_NAME = "com.merryapps.tipcalculator.model.db";
+    private static final int DATABASE_VERSION = 2;
 
-    private static final String ENTITY_STATE_FQDN = "com.merryapps.tipcalculator.model.core.EntityState";
-    private static final String ENTITY_STATE_CONVERTER_FQDN = "com.merryapps.tipcalculator.model.db.EntityStateConverter";
-    private static final String ENTITY_INTERFACE_FQDN = "com.merryapps.tipcalculator.model.db.Entity";
+    //the package where the entity itself will be generated
+    private static final String ENTITY_PACKAGE_NAME = "com.merryapps.easytip.model.db";
+    //the package where the dao will be generated
+    private static final String DAO_PACKAGE_NAME = "com.merryapps.easytip.model.db";
+    //the package where the test classes will be generated
+    private static final String DAO_TEST_PACKAGE_NAME = "com.merryapps.easytip.model.db";
+
+    private static final String ENTITY_STATE_FQDN = "com.merryapps.easytip.model.framework.EntityState";
+    private static final String ENTITY_STATE_CONVERTER_FQDN = "com.merryapps.easytip.model.framework.EntityStateConverter";
+    private static final String ENTITY_INTERFACE_FQDN = "com.merryapps.easytip.model.framework.Entity";
 
     //table names
     private static final String QUOTES_TBL_NAME = "QUOTES";
+    private static final String USER_SETTINGS_TBL_NAME = "USER_SETTINGS";
 
     public static void main(String... args) throws Exception {
 
-        Schema tipCalculatorDbSchema = new Schema(1, ENTITY_PACKAGE_NAME);
+        Schema tipCalculatorDbSchema = new Schema(DATABASE_VERSION, ENTITY_PACKAGE_NAME);
 
         //setting the package where the DAO code will be generated
         tipCalculatorDbSchema.setDefaultJavaPackageDao(DAO_PACKAGE_NAME);
@@ -39,8 +42,26 @@ public class TipCalculatorDaoGenerator {
         Entity quoteEntity = tipCalculatorDbSchema.addEntity("QuoteEntity");
         describeQuoteEntityTable(quoteEntity);
 
+        //UserSettings
+        Entity userSettingEntity = tipCalculatorDbSchema.addEntity("UserSettingEntity");
+        describeUserSettingsEntityTable(userSettingEntity);
+
         new DaoGenerator().generateAll(tipCalculatorDbSchema, "app/src/main/java");
 
+    }
+
+    private static void describeUserSettingsEntityTable(Entity userSettingsEntity) {
+        final String USER_SETTING_TYPE_FQDN = "com.merryapps.easytip.model.tip.UserSettingType";
+        final String USER_SETTING_TYPE_CONVERTER_FQDN = "com.merryapps.easytip.model.tip.UserSettingTypeConverter";
+
+        userSettingsEntity.addIdProperty();
+        userSettingsEntity.setTableName(USER_SETTINGS_TBL_NAME);
+        userSettingsEntity.implementsInterface(ENTITY_INTERFACE_FQDN);
+        userSettingsEntity.addStringProperty("userSettingType").unique()
+                .customType(USER_SETTING_TYPE_FQDN, USER_SETTING_TYPE_CONVERTER_FQDN).notNull();
+        userSettingsEntity.addStringProperty("userSettingValue").notNull();
+        userSettingsEntity.addStringProperty("entityState")
+                .customType(ENTITY_STATE_FQDN, ENTITY_STATE_CONVERTER_FQDN).notNull();
     }
 
     private static void describeQuoteEntityTable(Entity quoteEntity) {

@@ -8,6 +8,8 @@
     <string name="hint_text_people">People</string>
     <string name="hint_text_total_amount">Total Amount</string>
     <string name="hint_text_round_up">Round Up</string>
+    <string name="fragment_main_btn_done_text">DONE</string>
+    <string name="fragment_main_btn_save_text">SAVE</string>
 
     <!-- menu_main.xml -->
     <string name="menu_main_title_reset">Reset</string>

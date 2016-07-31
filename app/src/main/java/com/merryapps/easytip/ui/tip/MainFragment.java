@@ -43,6 +43,9 @@ import com.merryapps.easytip.R;
 import com.merryapps.easytip.model.quote.Quote;
 import com.merryapps.easytip.model.quote.QuoteManager;
 import com.merryapps.easytip.model.tip.Rounding;
+import com.merryapps.easytip.model.tip.UserSetting;
+import com.merryapps.easytip.model.tip.UserSettingMananger;
+import com.merryapps.easytip.model.tip.UserSettingType;
 import com.merryapps.easytip.ui.framework.AbstractFragment;
 
 import java.util.Locale;
@@ -56,8 +59,6 @@ public class MainFragment extends AbstractFragment {
     private static final int MAX_SEEKBAR_VALUE = 20;
     private static final String EMPTY_STRING = "";
     private static final String ZERO_DECIMAL_STRING = "0.00";
-    private static final String ONE_STRING = "1";
-    private static final String DEFAULT_PERCENTAGE_DECIMAL_STRING = "15";
     private static final String PROPERTY_MIN_PERCENTAGE_VALUE = "fragment.main.minPercentageValue";
     private static final String PROPERTY_MAX_PERCENTAGE_VALUE = "fragment.main.maxPercentageValue";
     private static final String PROPERTY_PERCENTAGE_STEP_SIZE = "fragment.main.percentageStepSize";
@@ -69,15 +70,13 @@ public class MainFragment extends AbstractFragment {
     private TextView quoteTxtVw;
     private TextView quoteAuthorTextVw;
     private EditText billAmountEdtTxt;
-    private TextView percentageSettingsValueTxtVw;
-    private TextView peopleCountSettingsValueTxtVw;
 
     private FloatingActionButton settingsFab;
     private RelativeLayout fragmentParent;
     private RelativeLayout quoteRelLyt;
     private LinearLayout settingsLnrLyt;
     private Button btnDone;
-    private Button btnCancel;
+    private Button btnSave;
     private SeekBar percentageSeekbar;
     private SeekBar peopleCountSeekbar;
     private Switch roundUpSwitch;
@@ -92,10 +91,10 @@ public class MainFragment extends AbstractFragment {
     private int percentageSeekbarStep;
     private int peopleCountSeekbarStep;
     private Animation settingsFabEnterAnimation;
-    private QuoteManager quoteManager;
     private DisplayMetrics displayMetrics;
     private TipUiHandler tipUiHandler;
-    private CompoundButton.OnCheckedChangeListener roundUpSwitchListener;
+    private QuoteManager quoteManager;
+    private UserSettingMananger userSettingManager;
 
     public MainFragment() {
         // Required empty public constructor
@@ -106,14 +105,15 @@ public class MainFragment extends AbstractFragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
+
+        initDb();
         initializeInstanceVariables();
         initViews(view);
         setupAnimations();
         setupListeners(view);
-        initDb();
         setQuote();
-
         startAnimations();
+
         return view;
     }
 
@@ -152,7 +152,6 @@ public class MainFragment extends AbstractFragment {
     private String shareMessageGenerator() {
         String newLine = "\n";
         String colon = ":";
-        int numberOfSpaces = 0;
 
         String separator = "------------------------------------------------";
         return  "Easy Tip: Tip and Split Calculation" +
@@ -207,6 +206,9 @@ public class MainFragment extends AbstractFragment {
         finalYCoordinate = (int) (displayMetrics.heightPixels * 0.57);
         finalXCoordinate = displayMetrics.widthPixels / 2;
 
+        quoteManager =   managerFactory().quoteManager();
+        userSettingManager = managerFactory().userSettingManager();
+
         minPercentageValue = Integer.parseInt(getProperty(PROPERTY_MIN_PERCENTAGE_VALUE));
         maxPercentageValue = Integer.parseInt(getProperty(PROPERTY_MAX_PERCENTAGE_VALUE));
         minPeopleCountValue = Integer.parseInt(getProperty(PROPERTY_PERCENTAGE_STEP_SIZE));
@@ -214,7 +216,10 @@ public class MainFragment extends AbstractFragment {
         percentageSeekbarStep = Integer.parseInt(getProperty(PROPERTY_MAX_PEOPLE_COUNT_VALUE));
         peopleCountSeekbarStep = Integer.parseInt(getProperty(PROPERTY_PEOPLE_COUNT_STEP_SIZE));
 
-        tipUiHandler = new TipUiHandler();
+
+        String tipPercentage = userSettingManager.getValue(UserSettingType.TIP_PERCENTAGE);
+        String numberOfPeople = userSettingManager.getValue(UserSettingType.PEOPLE_COUNT);
+        tipUiHandler = new TipUiHandler(tipPercentage, numberOfPeople);
 
     }
 
@@ -228,7 +233,7 @@ public class MainFragment extends AbstractFragment {
         billAmountEdtTxt.addTextChangedListener(newBillAmountTextWatcher());
         percentageSeekbar.setOnSeekBarChangeListener(newPercentageSeekbarChangeListener());
         peopleCountSeekbar.setOnSeekBarChangeListener(newPeopleCountSeekbarChangeListener());
-        roundUpSwitchListener = newRoundUpSwitchListener();
+        CompoundButton.OnCheckedChangeListener roundUpSwitchListener = newRoundUpSwitchListener();
         roundUpSwitch.setOnCheckedChangeListener(roundUpSwitchListener);
     }
 
@@ -372,8 +377,8 @@ public class MainFragment extends AbstractFragment {
         TextView totalTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_total_amount_id);
         percentageSeekbar = (SeekBar) view.findViewById(R.id.activity_main_skBr_tip_percentage_id);
         peopleCountSeekbar = (SeekBar) view.findViewById(R.id.activity_main_skBr_people_count_id);
-        percentageSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_percentage_settings_value_id);
-        peopleCountSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_people_count_settings_value_id);
+        TextView percentageSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_tip_percentage_settings_value_id);
+        TextView peopleCountSettingsValueTxtVw = (TextView) view.findViewById(R.id.activity_main_txtVw_people_count_settings_value_id);
         roundUpSwitch = (Switch) view.findViewById(R.id.activity_main_swtch_round_up_id);
 
         //setting up seekbars
@@ -383,16 +388,18 @@ public class MainFragment extends AbstractFragment {
         //setup amounts, tips and shares
         billAmountEdtTxt.setText(EMPTY_STRING);
         tipAmountTxtVw.setText(ZERO_DECIMAL_STRING);
-        tipPercentageTxtVw.setText(DEFAULT_PERCENTAGE_DECIMAL_STRING);
+        tipPercentageTxtVw.setText(tipUiHandler.getTipPercentage());
         eachPersonsShareTxtVw.setText(ZERO_DECIMAL_STRING);
-        peopleCountTxtVw.setText(ONE_STRING);
+        peopleCountTxtVw.setText(tipUiHandler.getNumberOfPeople());
         totalTxtVw.setText(ZERO_DECIMAL_STRING);
 
+        percentageSeekbar.setMax(maxPercentageValue);
         int tipPercentage = Integer.parseInt(tipUiHandler.getTipPercentage());
         percentageSeekbar.setProgress(tipPercentage*percentageSeekbarStep - minPercentageValue);
         int percentageSeekbarValue = tipPercentage * percentageSeekbarStep;
         percentageSettingsValueTxtVw.setText(String.format(Locale.getDefault(), SEEKBAR_VALUE_FORMAT_STRING, percentageSeekbarValue));
 
+        peopleCountSeekbar.setMax(maxPeopleCountValue);
         int peopleCount = (int) Double.parseDouble(tipUiHandler.getNumberOfPeople());
         peopleCountSeekbar.setProgress(peopleCount*peopleCountSeekbarStep - minPeopleCountValue);
         int peopleCountSeekbarValue = peopleCount * percentageSeekbarStep;
@@ -422,10 +429,10 @@ public class MainFragment extends AbstractFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnDone = (Button) view.findViewById(R.id.fragment_dialog_settings_btn_done_id);
-                btnCancel = (Button) view.findViewById(R.id.fragment_dialog_settings_btn_cancel_id);
+                btnDone = (Button) view.findViewById(R.id.fragment_settings_btn_done_id);
+                btnSave = (Button) view.findViewById(R.id.fragment_settings_btn_save_id);
                 btnDone.setOnClickListener(newDoneButtonOnClickListener());
-                btnCancel.setOnClickListener(newCancelButtonOnClickListener());
+                btnSave.setOnClickListener(newSaveButtonOnClickListener());
 
 
                 if(Build.VERSION.SDK_INT >= 21) {
@@ -475,11 +482,19 @@ public class MainFragment extends AbstractFragment {
         };
     }
 
-    private View.OnClickListener newCancelButtonOnClickListener() {
+    private View.OnClickListener newSaveButtonOnClickListener() {
         return new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                UserSetting percentageSetting = userSettingManager.get(UserSettingType.TIP_PERCENTAGE);
+                percentageSetting.setValue(tipUiHandler.getTipPercentage());
+                userSettingManager.save(percentageSetting);
+
+                UserSetting numberOfPeopleSetting = userSettingManager.get(UserSettingType.PEOPLE_COUNT);
+                numberOfPeopleSetting.setValue(tipUiHandler.getNumberOfPeople());
+                userSettingManager.save(numberOfPeopleSetting);
 
                 if(Build.VERSION.SDK_INT >= 21) {
 
@@ -491,6 +506,16 @@ public class MainFragment extends AbstractFragment {
                         animator.addListener(newOnRevealHideListener());
                         animator.start();
                     }
+                } else {
+                    RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    newParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    newParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+                    settingsFab.setLayoutParams(newParams);
+                    settingsFab.setVisibility(View.VISIBLE);
+                    settingsLnrLyt.setVisibility(View.GONE);
+                    quoteTxtVw.setVisibility(View.VISIBLE);
+                    quoteAuthorTextVw.setVisibility(View.VISIBLE);
+                    quoteRelLyt.setBackgroundResource(R.drawable.background_rounded_corners_12percent_black);
                 }
             }
         };
@@ -605,8 +630,8 @@ public class MainFragment extends AbstractFragment {
 
     }
 
+
     private void setQuote() {
-        quoteManager = managerFactory().quoteManager();
         Quote quote = quoteManager.getRandomQuote();
         quoteTxtVw.setText(quote.getQuote());
         quoteAuthorTextVw.setText(quote.getAuthor());

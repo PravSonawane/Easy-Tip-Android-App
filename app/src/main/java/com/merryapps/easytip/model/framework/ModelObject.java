@@ -1,4 +1,6 @@
-package com.merryapps.easytip.model.tip;
+package com.merryapps.easytip.model.framework;
+
+import com.merryapps.easytip.model.framework.EntityState;
 
 /**
  * An business object.

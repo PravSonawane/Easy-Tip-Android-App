@@ -1,8 +1,8 @@
-package com.merryapps.easytip.model.tip;
+package com.merryapps.easytip.model.framework;
 
 /**
  * <pre>
- * Represents the state of an entity.
+ * Represents the get of an entity.
  *
  * An entity life cycle is as follows:
  *
@@ -46,11 +46,11 @@ public enum EntityState {
         this.state = state;
     }
 
-    public String state() {
+    public String get() {
         return this.state;
     }
 
-    public static EntityState convertToEntityState(String state) {
+    public static EntityState convert(String state) {
         switch (state) {
             case "N":
                 return NEW;
@@ -68,6 +68,6 @@ public enum EntityState {
                 return INACTIVE;
         }
 
-        throw new IllegalArgumentException("No defined state for input string :" + state);
+        throw new IllegalArgumentException("No defined get for input string :" + state);
     }
 }

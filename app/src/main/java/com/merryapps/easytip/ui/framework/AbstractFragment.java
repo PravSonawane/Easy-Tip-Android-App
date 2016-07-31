@@ -4,7 +4,7 @@ package com.merryapps.easytip.ui.framework;
 import android.support.v4.app.Fragment;
 
 import com.merryapps.easytip.EasyTipApp;
-import com.merryapps.easytip.model.tip.ManagerFactory;
+import com.merryapps.easytip.model.framework.ManagerFactory;
 
 /**
  * A simple {@link Fragment} subclass.
